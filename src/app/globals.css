@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* Tip Tap CSS */
+.tiptap .is-editor-empty:first-child::before {
+  color: currentColor;     
+  opacity:0.3;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.tiptap .is-empty::before {
+  color: currentColor;     
+  opacity:0.3;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
