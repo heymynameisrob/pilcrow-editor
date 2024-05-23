@@ -21,3 +21,11 @@
   height: 0;
   pointer-events: none;
 }
+
+[aria-label][role~=tooltip]::after {
+  background:rgba(0,0,0,1) !important;  
+  border-radius:8px !important;
+  border:0 !important;
+  box-shadow:0 2px 4px rgba(0,0,0,0.12) !important;
+  white-space: nowrap;  
+}

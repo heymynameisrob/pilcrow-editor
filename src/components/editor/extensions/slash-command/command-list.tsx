@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useRef,
   useLayoutEffect,
+  useContext,
 } from "react";
 import { Editor } from "@tiptap/react";
 import { toast } from "sonner";
@@ -13,6 +14,7 @@ import { updateScrollView } from "@/components/editor/extensions/slash-command";
 import { CommandItemProps } from "@/components/editor/extensions/slash-command/suggestions";
 import { CommandListItem } from "@/components/editor/extensions/slash-command/command-list-item";
 import { getPreviousText } from "@/utils/editor";
+import { DocContext } from "@/context/doc";
 
 
 export const CommandList = ({
@@ -24,8 +26,9 @@ export const CommandList = ({
   editor: Editor;
   command: any;
   range?: any;
-}) => {
+}) => {  
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const commandListContainer = useRef<HTMLDivElement>(null);
 
   /**
    * AI Completion for 'Continue Writing'.
@@ -108,15 +111,13 @@ export const CommandList = ({
     setSelectedIndex(0);
   }, [items]);
 
-  const commandListContainer = useRef<HTMLDivElement>(null);
-
   useLayoutEffect(() => {
     const container = commandListContainer?.current;
 
     const item = container?.children[selectedIndex] as HTMLElement;
 
     if (item && container) updateScrollView(container, item);
-  }, [selectedIndex]);
+  }, [selectedIndex]);  
 
   return items.length > 0 ? (
     <div

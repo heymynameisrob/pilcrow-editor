@@ -4,6 +4,9 @@ import { cn } from "@/utils";
 
 import type { Editor } from "@tiptap/react";
 import { MotionDiv } from "@/components/ui/motion";
+import { ToolbarFormat } from "@/components/editor/toolbar/toolbar-format";
+import { ToolbarSeperator } from "@/components/editor/toolbar/toolbar-seperator";
+import { ToolbarColor } from "@/components/editor/toolbar/toolbar-color";
 
 export const Toolbar = ({
   editor,
@@ -42,9 +45,11 @@ export const Toolbar = ({
         animate={isVisible ? "visible" : "hidden"}
         variants={variants}
         transition={{ type: "tween" }}
-        className="dark relative translate-y-[10%] scale-90 bg-black border border-white/10 inline-flex flex-row items-center gap-1 justify-between py-0.5 px-1 rounded-full transition-all shadow-[0px_0px_0px_0.5px_rgb(0_0_0_/_0.40),_0px_1px_1px_-1px_rgb(0_0_0_/_0.12),_0px_4px_6px_0px_rgb(0_0_0_/_0.05),_0px_10px_16px_0px_rgb(0_0_0_/_0.1),_inset_0px_0.5px_0px_rgb(255_255_255_/_0.06),_inset_0px_0px_1px_0px_rgb(255_255_255_/_0.16),_inset_0px_-6px_12px_-4px_rgb(0_0_0_/_0.16)] before:pointer-events-none dark:before:bg-gradient-to-b before:from-white/[0.04] before:absolute before:inset-0 before:z-[1] before:rounded-full"
+        className="dark relative translate-y-[10%] scale-90 bg-black border border-white/10 inline-flex flex-row items-center gap-1 justify-between py-0.5 px-1 rounded-lg transition-all shadow-[0px_0px_0px_0.5px_rgb(0_0_0_/_0.40),_0px_1px_1px_-1px_rgb(0_0_0_/_0.12),_0px_4px_6px_0px_rgb(0_0_0_/_0.05),_0px_10px_16px_0px_rgb(0_0_0_/_0.1),_inset_0px_0.5px_0px_rgb(255_255_255_/_0.06),_inset_0px_0px_1px_0px_rgb(255_255_255_/_0.16),_inset_0px_-6px_12px_-4px_rgb(0_0_0_/_0.16)] before:pointer-events-none dark:before:bg-gradient-to-b before:from-white/[0.04] before:absolute before:inset-0 before:z-[1] before:rounded-full"
       >
-        <small>Toolbar</small>
+        <ToolbarFormat editor={editor} />
+        <ToolbarSeperator />
+        <ToolbarColor editor={editor} />
       </MotionDiv>
     </div>
   );

@@ -2,35 +2,13 @@
 import React, { createContext, useEffect, useState } from "react";
 
 export const DocContext = createContext<any>({
-  title: "New Document...",
-  isCached: false,
-  handleStripTitleFromContent: () => {},
-  setDoc: () => {},
-  isSaving: false,
+  title: "New Document",
 });
 
 export const DocProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>("");
-  const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [isFaded, setIsFaded] = useState<boolean>(false);
-  const [suggestModalOpen, setSuggestModalOpen] = useState<boolean>(false);
-  const [characterCount, setCharacterCount] = useState<number>(0);
-  const [wordCount, setWordCount] = useState<number>(0);
-  const [readingTime, setReadingTime] = useState<number>(0);
-
-  const [isAiChatOpen, setIsAiChatOpen] = useState<boolean>(false);
-  const [isAnnotationsOn, setIsAnnotationsOn] = useState<boolean>(true);
   
-  const [currentReminderId, setCurrentReminderId] = useState<string | null>(
-    null,
-  );
-  const [doc, setDoc] = useState<any>(null);
-
-  const handleSaveDoc = (doc: any) => {
-    setDoc(doc);
-    localStorage.setItem("doc", JSON.stringify(doc));
-  }
+  const [title, setTitle] = useState<string>("");
+  const [openAiKey, setOpenAiKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (title === document.title) return;
@@ -40,37 +18,24 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [title]);
 
-  useEffect(() => {
-    const doc = localStorage.getItem("doc");
+  const handleSetApiKey = () => {
+    const key = prompt("Enter OpenAI key");
+    if (key) {
+      setOpenAiKey(key);
+      localStorage.setItem("openai_key", key);
+    }
+  }
 
-    if (doc) setDoc(JSON.parse(doc));    
+  useEffect(() => {
+    const key = localStorage.getItem("openai_key");
+    if (key) setOpenAiKey(key);
   }, []);
 
-  const providerValues = {
-    doc,
-    handleSaveDoc,
+  const providerValues = {    
     title,
-    setTitle,
-    isSaving,
-    setIsSaving,
-    isFaded,
-    setIsFaded,
-    suggestModalOpen,
-    setSuggestModalOpen,
-    currentReminderId,
-    setCurrentReminderId,
-    isEditing,
-    setIsEditing,
-    wordCount,
-    setWordCount,
-    readingTime,
-    setReadingTime,
-    characterCount,
-    setCharacterCount,
-    isAiChatOpen,
-    setIsAiChatOpen,
-    isAnnotationsOn,
-    setIsAnnotationsOn,
+    setTitle,    
+    openAiKey,
+    handleSetApiKey,
   };
 
   return (
