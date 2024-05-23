@@ -1,3 +1,7 @@
+/**
+ * Main Page - Displays the editor, title, and menu actions
+ */
+
 import { DocProvider } from "@/context/doc";
 import { Editor } from "@/components/editor";
 import { Title } from "@/components/title";

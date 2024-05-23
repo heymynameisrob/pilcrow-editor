@@ -11,13 +11,6 @@ export const runtime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
   
-  /**
-   * #1 - Rate limit the API to 20 requests per day.
-   * This is because we have a live production example. 
-   * Change this to a higher value if you're running your own instance.
-   */
-  const REQUESTS_PER_DAY = 20;
-
   if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === "") {
     return new Response(
       "Missing OPENAI_API_KEY.",
@@ -26,22 +19,29 @@ export async function POST(req: Request): Promise<Response> {
       },
     );
   }
+  
+  /**
+   * #1 - Rate limit the API to 20 requests per day.
+   * This is because we have a live production example. 
+   * Change this to a higher value if you're running your own instance.
+   */
+  const REQUESTS_PER_DAY = 20;
 
   /**
-   * #2 – Rate limit the API
+   * #2 – Manage limits in the KV store
    * As we're deploying to Vercel, we can use the KV store to rate limit the API.
    * Change this if you want to use a different rate limiting strategy.
    */
 
   if (process.env.NODE_ENV != "development" && process.env.KV_REST_API_TOKEN) {
-    const ip = req.headers.get("x-forwarded-for");
+    const ip_address = req.headers.get("x-forwarded-for");
     const ratelimit = new Ratelimit({
       redis: kv,
-      limiter: Ratelimit.slidingWindow(REQUESTS_PER_DAY, "1 d"),
+      limiter: Ratelimit.slidingWindow(REQUESTS_PER_DAY, "1d"),
     });
 
     const { success, limit, reset, remaining } = await ratelimit.limit(
-      `pilcrow_editor_ratelimit_${ip}`,
+      `pilcrow_editor_ratelimit_${ip_address}`,
     );
 
     if (!success) {
@@ -80,8 +80,10 @@ export async function POST(req: Request): Promise<Response> {
         content: prompt,
       },
     ],
+
+    // Leave these
     stream: true,
-    n: 1, // Make sure to generate just one response
+    n: 1,
     
     // Play with these
     temperature: 0.7,  

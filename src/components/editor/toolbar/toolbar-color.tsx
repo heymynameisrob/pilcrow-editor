@@ -13,8 +13,9 @@ import { ChevronDownIcon } from "@/components/icons";
 import { cn } from "@/utils";
 import { EDITOR_COLOR_CLASSES } from "@/lib/constants";
 
+import type { Editor } from "@tiptap/react";
 
-export const ToolbarColor = ({ editor }: any) => {
+export const ToolbarColor = ({ editor }: { editor: Editor }) => {
   const [color, setColor] = useState<string>(EDITOR_COLOR_CLASSES[0].color);
 
   const handleSetColor = (color: string) => {

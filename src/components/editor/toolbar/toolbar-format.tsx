@@ -3,7 +3,9 @@
 import { BoldIcon, CodeIcon, ItalicIcon, LinkIcon, UnderlineIcon } from "@/components/icons";
 import { Toggle } from "@/components/ui/toggle";
 
-export const ToolbarFormat = ({ editor }: any) => {
+import type { Editor } from "@tiptap/react";
+
+export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
   const onSetLink = () => {
     const isLink = editor.isActive("link");
 
@@ -13,7 +15,7 @@ export const ToolbarFormat = ({ editor }: any) => {
     }
 
     const url = window.prompt("Enter the URL of the link:");
-    editor.commands.setLink({ href: url });
+    if(url) editor.commands.setLink({ href: url });
   };
 
   return (

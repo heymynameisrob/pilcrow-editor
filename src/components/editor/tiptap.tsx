@@ -1,15 +1,19 @@
 'use client';
 
+/**
+ * Tiptap Editor - Editor component using Tiptap.
+ * Handles the editor state, toolbar, and AI completion.
+ */
+
 import { useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useCompletion } from "ai/react";
 
-import extensions from "@/components/editor/extensions";
 import { defaultEditorProps } from "@/components/editor/props";
+import ExtensionList from "@/components/editor/extensions";
+import { Toolbar } from "@/components/editor/toolbar";
 
 import type { JSONContent } from "@tiptap/core";
-import { Toolbar } from "@/components/editor/toolbar";
-import StarterKit from "@tiptap/starter-kit";
 
 export type EditorProps = {
   handleOnSave: (content: JSONContent) => void;  
@@ -30,7 +34,7 @@ export const TipTap = ({
    * Handle the onUpdate event to save the content to local storage.
    */
   const editor = useEditor({
-    extensions: [...extensions],    
+    extensions: ExtensionList,     
     onUpdate: ({ editor }) => {
 
       // Prevents infinite loop if content is not ready.

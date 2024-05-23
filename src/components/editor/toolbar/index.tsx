@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import { cn } from "@/utils";
-
-import type { Editor } from "@tiptap/react";
 import { MotionDiv } from "@/components/ui/motion";
 import { ToolbarFormat } from "@/components/editor/toolbar/toolbar-format";
 import { ToolbarSeperator } from "@/components/editor/toolbar/toolbar-seperator";
 import { ToolbarColor } from "@/components/editor/toolbar/toolbar-color";
+import { cn } from "@/utils";
+
+import type { Editor } from "@tiptap/react";
 
 export const Toolbar = ({
   editor,
@@ -30,6 +30,8 @@ export const Toolbar = ({
       transition: { duration: 0.15 },
     },
   };
+
+  if (!editor) return null;
 
   return (
     <div
