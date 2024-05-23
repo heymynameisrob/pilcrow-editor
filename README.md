@@ -12,11 +12,15 @@ This is an exact copy of the editor experience in [Pilcrow](https://pilcrow.xyz)
 ## How it works
 More here
 
-## Using AI features
-More here
 
 ## Run it locally
-Clone the repo and install everything. Make sure you use the correct node version with `nvm`
+Clone the repo and install everything. 
+
+To use everything, you'll need:
+- Tiptap Pro
+- OpenAI key
+
+Make sure you use the correct node version with `nvm`
 
 ```bash
 nvm use
