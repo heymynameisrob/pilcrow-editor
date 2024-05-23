@@ -21,15 +21,12 @@ export const CommandListItem = ({
   selectedIndex,
   isLoading,
   onSelect,
-}: CommandListItemProps) => {
-
-  const { openAiKey } = useContext(DocContext);
+}: CommandListItemProps) => {  
 
   return (
     <button
       className={cn(
-        "flex flex-row w-full justify-between items-center gap-4 rounded-md px-2 py-1 text-left text-sm text-white hover:bg-white/10 hover:shadow-[inset_0px_1px_0px_hsla(0_,0%_,100%_,.02)_,inset_0px_0px_0px_1px_hsla(0_,0%_,100%_,.02)_,0px_1px_2px_rgba(0_,0_,0_,.12)_,0px_2px_4px_rgba(0_,0_,0_,.08)_,0px_0px_0px_0.5px_rgba(0_,0_,0_,.24)]",
-        !openAiKey && item.id === "ai-complete" ? "pointer-events-none opacity-50" : "",
+        "flex flex-row w-full justify-between items-center gap-4 rounded-md px-2 py-1 text-left text-sm text-white hover:bg-white/10 hover:shadow-[inset_0px_1px_0px_hsla(0_,0%_,100%_,.02)_,inset_0px_0px_0px_1px_hsla(0_,0%_,100%_,.02)_,0px_1px_2px_rgba(0_,0_,0_,.12)_,0px_2px_4px_rgba(0_,0_,0_,.08)_,0px_0px_0px_0.5px_rgba(0_,0_,0_,.24)]",        
         index === selectedIndex
           ? "bg-white/10 shadow-[inset_0px_1px_0px_hsla(0_,0%_,100%_,.02)_,inset_0px_0px_0px_1px_hsla(0_,0%_,100%_,.02)_,0px_1px_2px_rgba(0_,0_,0_,.12)_,0px_2px_4px_rgba(0_,0_,0_,.08)_,0px_0px_0px_0.5px_rgba(0_,0_,0_,.24)]"
           : "",

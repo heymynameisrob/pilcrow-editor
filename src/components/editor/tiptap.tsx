@@ -12,13 +12,11 @@ import { Toolbar } from "@/components/editor/toolbar";
 import StarterKit from "@tiptap/starter-kit";
 
 export type EditorProps = {
-  handleOnSave: (content: JSONContent) => void;
-  aiApiRoute?: string;
+  handleOnSave: (content: JSONContent) => void;  
 }
 
 export const TipTap = ({
-  handleOnSave,
-  aiApiRoute,  
+  handleOnSave,  
 } : EditorProps) => {
 
   // TODO: Consider changing these states to reducers
@@ -70,12 +68,13 @@ export const TipTap = ({
    * #3 - Handle AI Completion
    * Using the useCompletion hook to handle the AI completion.
    * Leverage useRef to store each part of the stream.
+   * This is triggered from / command list. Matching id means that they talk to each other.
    */
   const prev = useRef("");
   const { completion, isLoading } = useCompletion({
     id: "complete",
-    api: aiApiRoute,
-    onFinish: (completion) => {
+    api: '/api/ai/complete',
+    onFinish: (completion) => {      
       editor?.commands.setTextSelection({
         from: editor.state.selection.from - completion.length,
         to: editor.state.selection.from,
@@ -88,14 +87,12 @@ export const TipTap = ({
   });
 
   // Insert chunks of the generated text
-  useEffect(() => {
-
-    if(!aiApiRoute) return;
+  useEffect(() => {    
 
     const diff = completion.slice(prev.current.length);
     prev.current = completion;
     editor?.commands.insertContent(diff);
-  }, [aiApiRoute, isLoading, editor, completion]);
+  }, [isLoading, editor, completion]);
 
   /**
    * #4 - Render Editor

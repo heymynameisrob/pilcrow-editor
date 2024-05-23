@@ -4,8 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useLayoutEffect,
-  useContext,
+  useLayoutEffect,  
 } from "react";
 import { Editor } from "@tiptap/react";
 import { toast } from "sonner";
@@ -14,8 +13,6 @@ import { updateScrollView } from "@/components/editor/extensions/slash-command";
 import { CommandItemProps } from "@/components/editor/extensions/slash-command/suggestions";
 import { CommandListItem } from "@/components/editor/extensions/slash-command/command-list-item";
 import { getPreviousText } from "@/utils/editor";
-import { DocContext } from "@/context/doc";
-
 
 export const CommandList = ({
   items,
@@ -36,17 +33,15 @@ export const CommandList = ({
    */
   const { complete, isLoading } = useCompletion({
     id: "complete",
-    api: "api/ai/complete",
+    api: "/api/ai/complete",
     onResponse: (response) => {
       if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        // TODO: Add VA tracking
+        toast.error("You have reached your request limit for the day.");        
         return;
       }
     },
     onError: (e) => {
-      toast.error(e.message);
-      // TODO: Add VA tracking
+      toast.error(e.message);      
     },
   });
 

@@ -25,9 +25,6 @@ export const Editor = () => {
   }, 750);
 
   return (
-    <TipTap 
-      handleOnSave={(content: JSONContent) => onSave(content)} 
-      aiApiRoute=""
-      />
+    <TipTap handleOnSave={(content: JSONContent) => onSave(content)} />
   );
 }
