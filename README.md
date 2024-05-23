@@ -1,14 +1,18 @@
-## Pilcrow Editor
+# Pilcrow Editor
 
 This is an exact copy of the editor experience in [Pilcrow](https://pilcrow.xyz). A few modifications have been made so that it works right out the box. However, most of the functionality is there. Including:
 
 - Full node-based text editing
-- AI autocomplete
+- Slash commands
+- AI Complete (OpenAI key needed)
 - AI Assistance
 - Annotations
 - Snippets
 
 ## How it works
+More here
+
+## Using AI features
 More here
 
 ## Run it locally
