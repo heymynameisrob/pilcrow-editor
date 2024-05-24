@@ -8,34 +8,36 @@ export const DocContext = createContext<any>({
 export const DocProvider = ({ children }: { children: React.ReactNode }) => {
   
   const [title, setTitle] = useState<string>("");
-  const [openAiKey, setOpenAiKey] = useState<string | null>(null);
+  const [lastSaved, setLastSaved] = useState<Date>(new Date());  
 
   useEffect(() => {
     if (title === document.title) return;
 
     if (title) {
       document.title = title;
+      localStorage.setItem("title", title);
     }
   }, [title]);
 
-  const handleSetApiKey = () => {
-    const key = prompt("Enter OpenAI key");
-    if (key) {
-      setOpenAiKey(key);
-      localStorage.setItem("openai_key", key);
-    }
+  const handleLastSaved = () => {
+    const date = new Date();
+    setLastSaved(date);
+    localStorage.setItem("last_saved", date.toISOString());
   }
 
   useEffect(() => {
-    const key = localStorage.getItem("openai_key");
-    if (key) setOpenAiKey(key);
+    const lastSaved = localStorage.getItem("last_saved");
+    const title = localStorage.getItem("title");
+
+    if (lastSaved) setLastSaved(new Date(lastSaved));
+    if (title) setTitle(title);
   }, []);
 
   const providerValues = {    
     title,
-    setTitle,    
-    openAiKey,
-    handleSetApiKey,
+    setTitle,        
+    lastSaved,
+    handleLastSaved,
   };
 
   return (

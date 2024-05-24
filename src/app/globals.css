@@ -21,6 +21,13 @@
   height: 0;
   pointer-events: none;
 }
+.prose h1:has(+ .strapline) {
+  /* Your styles here */
+  @apply !mb-4    
+}
+.prose h1 + .strapline {
+  @apply !mt-0
+}
 
 [aria-label][role~=tooltip]::after {
   background:rgba(0,0,0,1) !important;  

@@ -6,9 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import { Toggle } from "@/components/ui/toggle";
 import { AiIcon, MoreIcon, TrashIcon } from "@/components/icons";
 
-export const TopMenu = () => {
-
-  const { handleSetApiKey } = useContext(DocContext);
+export const TopMenu = () => {  
 
   const handleClearStorage = () => {
     confirm("Are you sure?") && 
@@ -30,18 +28,7 @@ export const TopMenu = () => {
         <MoreIcon />
       </Toggle>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">      
-        <DropdownMenuItem 
-          className="gap-2"
-          onSelect={(e) => {
-            e.preventDefault();
-            handleSetApiKey();
-          } 
-        }>
-          <AiIcon size={15} strokeWidth={1.5} />
-          <>Add OpenAI key</>
-        </DropdownMenuItem>    
-        <DropdownMenuSeparator />
+      <DropdownMenuContent align="end">              
         <DropdownMenuItem 
         className="gap-2"
         onSelect={(e) => {

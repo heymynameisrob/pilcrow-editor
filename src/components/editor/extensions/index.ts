@@ -30,11 +30,14 @@ import TiptapUnderline from "@tiptap/extension-underline";
 import UniqueID from "@tiptap-pro/extension-unique-id";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
-import Color from "@tiptap/extension-color";
+import {Color} from "@/components/editor/extensions/color";
+import emojiSuggestions from "@/components/editor/extensions/emoji/emoji-suggestions";
 
 import CustomKeyMap from "@/components/editor/extensions/custom-keys";
 import { InputRule } from "@tiptap/core";
 import SlashCommand from "@/components/editor/extensions/slash-command";
+import { Strapline } from "@/components/editor/extensions/strapline";
+import Callout from "@/components/editor/extensions/callout";
 
 
 export default [
@@ -61,9 +64,21 @@ export default [
   CharacterCount,
   Image,
   SlashCommand,
+  Strapline.configure({
+    HTMLAttributes: {
+      class:
+        "strapline text-secondary prose text-[1.25em] font-normal leading-[inherit] mt-0 mb-[1.33em]",
+    },
+  }),
+  Callout.configure({
+    emoji: "📣",
+    HTMLAttributes: {
+      class:
+        "relative p-4 pl-12 rounded-md bg-ui-low text-primary before:content-[attr(data-emoji)] before:absolute before:top-4 before:left-4 before:text-base",
+    },
+  }),
   // Loading,
-  // AIBlock,
-  // LintExtension,
+  // AIBlock,  
   // Figure.configure({
   //   HTMLAttributes: {
   //     class:
@@ -73,19 +88,6 @@ export default [
   // Iframe.configure({
   //   HTMLAttributes: {
   //     class: "w-full aspect-video mb-[1.33em]",
-  //   },
-  // }),
-  // Strapline.configure({
-  //   HTMLAttributes: {
-  //     class:
-  //       "strapline text-secondary prose text-[1.25em] font-normal leading-[inherit] mt-0 mb-[1.33em]",
-  //   },
-  // }),
-  // Callout.configure({
-  //   emoji: "📣",
-  //   HTMLAttributes: {
-  //     class:
-  //       "relative p-4 pl-12 rounded-md bg-ui-low text-primary before:content-[attr(data-emoji)] before:absolute before:top-4 before:left-4 before:text-base",
   //   },
   // }),
   TaskList.configure({
@@ -100,13 +102,13 @@ export default [
         "flex flex-row items-center gap-2 checked:line-through !my-0 [&_p]:m-0",
     },
   }),
-  // Emoji.configure({
-  //   HTMLAttributes: {
-  //     class: "inline text-[1em]",
-  //   },
-  //   enableEmoticons: true, // E.g. <3 will be converted to ❤️
-  //   suggestion: emojiSuggestion,
-  // }),
+  Emoji.configure({
+    HTMLAttributes: {
+      class: "inline text-[1em]",
+    },
+    enableEmoticons: true, // E.g. <3 will be converted to ❤️
+    suggestion: emojiSuggestions,
+  }),
   BulletList.configure({
     HTMLAttributes: {
       class: "list-disc list-outside leading-3 -mt-2",
@@ -185,7 +187,7 @@ export default [
     },
   }).configure({
     HTMLAttributes: {
-      class: "mt-4 mb-6 border-t border-primary",
+      class: "mt-4 mb-6 border-t border-black/10 dark:border-white/10",
     },
   }),
   TiptapLink.extend({
@@ -203,7 +205,7 @@ export default [
         return "# Write something";
       }
 
-      return "Press / commands or start writing...";
+      return "Type / for commands or start writing...";
     },
     includeChildren: true,
   }),

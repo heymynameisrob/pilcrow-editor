@@ -15,7 +15,7 @@ import type { JSONContent } from "@tiptap/core";
 
 export const Editor = () => {
 
-  const { setTitle } = useContext(DocContext);
+  const { setTitle, handleLastSaved } = useContext(DocContext);
 
   /**
    * #1 - Save the content to local storage
@@ -30,6 +30,8 @@ export const Editor = () => {
     
     const title = getTitleFromJson(content);
     setTitle(title);
+
+    handleLastSaved(new Date());
 
   }, 750);
 

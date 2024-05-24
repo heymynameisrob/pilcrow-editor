@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -51,16 +52,17 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
           aria-label="Color"
           data-microtip-position="top"
           role="tooltip"
-          className="5ap-2 data-[state=darkn]:bg-white/10"
+          className="gap-1 data-[state=on]:bg-white/10 dark:data-[state=on]:bg-white/10"
         >
-          <small className="font-medium">A</small>
+          <small className={cn("!text-sm px-1 rounded font-medium capitalize", color)}>A</small>
           <ChevronDownIcon className="text-white" />
         </Toggle>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="start"
-        className=" max-h-[240px] overflow-y-auto"
+        className="max-h-[240px] overflow-y-auto"
       >
+        <DropdownMenuLabel className="text-xs opacity-60">Text</DropdownMenuLabel>
         <DropdownMenuRadioGroup value={color} onValueChange={handleSetColor}>
           <>
             {EDITOR_COLOR_CLASSES.map((color: any) => (
@@ -79,6 +81,7 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
               </DropdownMenuRadioItem>
             ))}
             <DropdownMenuSeparator />
+            <DropdownMenuLabel className="text-xs opacity-60">Background</DropdownMenuLabel>
             {EDITOR_COLOR_CLASSES.map((color: any) => (
               <DropdownMenuRadioItem value={color.background} key={color.name}>
                 <div className="flex justify-center items-center gap-2">
