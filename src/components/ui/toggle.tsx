@@ -7,15 +7,15 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const toggleVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-slate-100 data-[state=on]:text-slate-900 dark:ring-offset-slate-950 dark:hover:bg-white/10 dark:hover:text-white dark:focus-visible:ring-slate-300 dark:data-[state=on]:bg-white/10 dark:data-[state=on]:text-white",
+  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white transition-colors hover:bg-neutral-100 hover:text-neutral-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=on]:bg-neutral-100 data-[state=on]:text-neutral-900 dark:ring-offset-neutral-950 dark:hover:bg-white/10 dark:hover:text-white dark:focus-visible:ring-neutral-300 dark:data-[state=on]:bg-white/10 dark:data-[state=on]:text-white",
   {
     variants: {
       variant: {
         default: "bg-transparent",
         outline:
-          "border border-slate-200 bg-transparent hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:hover:bg-slate-800 dark:hover:text-slate-50",
+          "border border-neutral-200 bg-transparent hover:bg-neutral-100 hover:text-neutral-900 dark:border-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-neutral-50",
           black:
-          "bg-black text-white hover:bg-white/10 hover:text-white data-[state=on]:bg-white/10 data-[state=on]:text-white dark:hover:bg-white/10 dark:hover:text-white dark:data-[state=on]:bg-white/20 dark:data-[state=on]:text-white",
+          "bg-neutral-900 text-white hover:bg-white/10 hover:text-white data-[state=on]:bg-white/10 data-[state=on]:text-white dark:hover:bg-white/10 dark:hover:text-white dark:data-[state=on]:bg-white/20 dark:data-[state=on]:text-white",
       },
       size: {
         default: "h-10 px-3",

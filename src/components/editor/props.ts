@@ -5,7 +5,7 @@ export const defaultEditorProps: EditorProps = {
   attributes: {
     class: cn(      
       "focus:outline-none",
-      "prose prose-base dark:prose-invert",
+      "prose prose-sm md:prose-base dark:prose-invert",
       "prose-code:before:hidden prose-code:after:hidden",
       "prose-h1:font-semibold prose-h2:font-medium prose-h3:font-medium prose-h4:font-medium prose-h5:font-regular prose-h6:font-regular",
       "prose-h2:mb-[0.666em] prose-h3:mb-[0.666em]",

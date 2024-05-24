@@ -47,7 +47,7 @@ export const Toolbar = ({
         animate={isVisible ? "visible" : "hidden"}
         variants={variants}
         transition={{ type: "tween" }}
-        className="dark relative translate-y-[10%] scale-90 bg-black border border-white/10 inline-flex flex-row items-center gap-1 justify-between py-0.5 px-1 rounded-lg transition-all shadow-[0px_0px_0px_0.5px_rgb(0_0_0_/_0.40),_0px_1px_1px_-1px_rgb(0_0_0_/_0.12),_0px_4px_6px_0px_rgb(0_0_0_/_0.05),_0px_10px_16px_0px_rgb(0_0_0_/_0.1),_inset_0px_0.5px_0px_rgb(255_255_255_/_0.06),_inset_0px_0px_1px_0px_rgb(255_255_255_/_0.16),_inset_0px_-6px_12px_-4px_rgb(0_0_0_/_0.16)] before:pointer-events-none dark:before:bg-gradient-to-b before:from-white/[0.04] before:absolute before:inset-0 before:z-[1] before:rounded-full"
+        className="dark relative translate-y-[10%] scale-90 bg-neutral-900 border border-white/10 inline-flex flex-row items-center gap-1 justify-between p-0.5 rounded-lg transition-all shadow-[0px_0px_0px_0.5px_rgb(0_0_0_/_0.40),_0px_1px_1px_-1px_rgb(0_0_0_/_0.12),_0px_4px_6px_0px_rgb(0_0_0_/_0.05),_0px_10px_16px_0px_rgb(0_0_0_/_0.1),_inset_0px_0.5px_0px_rgb(255_255_255_/_0.06),_inset_0px_0px_1px_0px_rgb(255_255_255_/_0.16),_inset_0px_-6px_12px_-4px_rgb(0_0_0_/_0.16)] before:pointer-events-none dark:before:bg-gradient-to-b before:from-white/[0.04] before:absolute before:inset-0 before:z-[1] before:rounded-full"
       >
         <ToolbarFormat editor={editor} />
         <ToolbarSeperator />
