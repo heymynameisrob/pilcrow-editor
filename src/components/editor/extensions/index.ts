@@ -243,11 +243,10 @@ const extensions = [
       files: Array<File>,
       htmlContent: string | undefined,
     ) => {
-      
       /**
        * Ignore HTML content as Markdown extension sorts that out for us
-      */  
-      if (htmlContent) return false;    
+       */
+      if (htmlContent) return false;
 
       files.forEach((file: any) => {
         const fileReader = new FileReader();
