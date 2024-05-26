@@ -1,17 +1,37 @@
 'use client';
 
 import { useContext } from "react";
+import { generateText } from "@tiptap/core";
 import { DocContext } from "@/context/doc";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Toggle } from "@/components/ui/toggle";
-import { AiIcon, MoreIcon, TrashIcon } from "@/components/icons";
+import extensions from "@/components/editor/extensions";
+import { AiIcon, DocIcon, MoreIcon, TrashIcon } from "@/components/icons";
+import { toast } from "sonner";
 
 export const TopMenu = () => {  
+
+  const { markdown } = useContext(DocContext);
 
   const handleClearStorage = () => {
     confirm("Are you sure?") && 
       localStorage.clear();
       window.location.reload();    
+  }
+
+  const handleCopyAsMarkdown = () => {    
+    navigator.clipboard.writeText(markdown);
+    toast("Copied as Markdown");
+  }
+
+  const handleCopyAsText = () => {
+    const json = localStorage.getItem("content");
+
+    if (!json) return;
+
+    const text = generateText(JSON.parse(json), [...extensions]);
+    navigator.clipboard.writeText(text);
+    toast("Copied as text");
   }
 
   return(
@@ -33,8 +53,27 @@ export const TopMenu = () => {
         className="gap-2"
         onSelect={(e) => {
           e.preventDefault();
+          handleCopyAsMarkdown();
+        }}>          
+          <DocIcon />
+          <>Copy as Markdown</>
+        </DropdownMenuItem>     
+        <DropdownMenuItem 
+        className="gap-2"
+        onSelect={(e) => {
+          e.preventDefault();
+          handleCopyAsText();
+        }}>          
+          <DocIcon />
+          <>Copy as Text</>
+        </DropdownMenuItem>     
+        <DropdownMenuSeparator />
+        <DropdownMenuItem 
+        className="gap-2"
+        onSelect={(e) => {
+          e.preventDefault();
           handleClearStorage();
-        }}>
+        }}>          
           <TrashIcon />
           <>Clear storage</>
         </DropdownMenuItem>     

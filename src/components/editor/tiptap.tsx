@@ -5,23 +5,23 @@
  * Handles the editor state, toolbar, and AI completion.
  */
 
-import { useEffect, useRef, useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import { useCompletion } from "ai/react";
 
 import { defaultEditorProps } from "@/components/editor/props";
 import ExtensionList from "@/components/editor/extensions";
 import { Toolbar } from "@/components/editor/toolbar";
 
-import type { JSONContent } from "@tiptap/core";
 
 export type EditorProps = {
-  handleOnSave: (content: JSONContent) => void;  
+  handleOnSave: (editor: any) => void;  
 }
 
 export const TipTap = ({
   handleOnSave,  
 } : EditorProps) => {
+  
 
   // TODO: Consider changing these states to reducers
   const [isReady, setIsReady] = useState(false);  
@@ -33,14 +33,14 @@ export const TipTap = ({
    * Initialise the Tiptap editor, load in the extensions and existing content (empty string if none).
    * Handle the onUpdate event to save the content to local storage.
    */
-  const editor = useEditor({
+  const editor = useEditor({    
     extensions: ExtensionList,     
     onUpdate: ({ editor }) => {
 
       // Prevents infinite loop if content is not ready.
       if(!isReady || !editor) return;
 
-      handleOnSave(editor.getJSON());
+      handleOnSave(editor);            
 
     },
     editorProps: {
@@ -57,12 +57,7 @@ export const TipTap = ({
 
     const { from, to } = editor.state.selection;
     const text = editor.state.doc.textBetween(from, to);
-
-    // if(alwaysShowToolbar) {
-    //   setIsToolbarVisible(true);
-    //   return;
-    // }
-
+    
     setIsToolbarVisible(text.length > 0);
 
   }, [editor?.state.selection]);
@@ -123,7 +118,7 @@ export const TipTap = ({
   return(
     <>
       <Toolbar editor={editor} isVisible={isToolbarVisible} />
-      <EditorContent editor={editor} className="h-full max-w-2xl mx-auto" />
+      <EditorContent editor={editor} className="h-full max-w-2xl mx-auto" />            
     </>
   )
 }

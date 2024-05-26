@@ -20,8 +20,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
 
   return (
     <div className="flex justify-center items-center">
-      <Toggle
-        variant="black"
+      <Toggle        
         size="sm"
         pressed={editor.isActive("bold")}
         title="Bold"
@@ -32,8 +31,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
       >
         <BoldIcon />
       </Toggle>
-      <Toggle
-        variant="black"
+      <Toggle        
         size="sm"
         pressed={editor.isActive("italic")}
         title="Italic"
@@ -44,8 +42,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
       >
         <ItalicIcon />
       </Toggle>
-      <Toggle
-        variant="black"
+      <Toggle        
         size="sm"
         pressed={editor.isActive("underline")}
         title="Underline"
@@ -56,8 +53,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
       >
         <UnderlineIcon />
       </Toggle>
-      <Toggle
-        variant="black"
+      <Toggle        
         size="sm"
         pressed={editor.isActive("link")}
         title="Link"
@@ -68,8 +64,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
       >
         <LinkIcon />
       </Toggle>
-      <Toggle
-        variant="black"
+      <Toggle        
         size="sm"
         pressed={editor.isActive("code")}
         title="Inline code"

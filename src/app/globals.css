@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --theme-color:#fff;
+}
+
+[data-theme="dark"]:root {
+  --theme-color:#000;
+}
 
 
 /* Tip Tap CSS */

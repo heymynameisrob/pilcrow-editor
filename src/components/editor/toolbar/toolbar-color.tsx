@@ -45,8 +45,7 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Toggle
-          variant="black"
+        <Toggle          
           size="sm"
           title="Color"
           aria-label="Color"
@@ -55,7 +54,7 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
           className="gap-1 data-[state=on]:bg-white/10 dark:data-[state=on]:bg-white/10"
         >
           <small className={cn("!text-sm px-1 rounded font-medium capitalize", color)}>A</small>
-          <ChevronDownIcon className="text-white" />
+          <ChevronDownIcon />
         </Toggle>
       </DropdownMenuTrigger>
       <DropdownMenuContent

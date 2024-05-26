@@ -9,6 +9,7 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
   
   const [title, setTitle] = useState<string>("");
   const [lastSaved, setLastSaved] = useState<Date>(new Date());  
+  const [markdown, setMarkdown] = useState<string>("");
 
   useEffect(() => {
     if (title === document.title) return;
@@ -38,6 +39,8 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
     setTitle,        
     lastSaved,
     handleLastSaved,
+    markdown,
+    setMarkdown,
   };
 
   return (

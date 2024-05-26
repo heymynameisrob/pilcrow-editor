@@ -49,6 +49,8 @@ export default [
   Color,
   Markdown.configure({
     linkify: true,
+    transformPastedText: true,
+    html:true,
   }),
   Text,
   Heading.configure({
