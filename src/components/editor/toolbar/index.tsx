@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useLayoutEffect } from "react";
-import { MotionDiv } from "@/components/ui/motion";
+import React, { useEffect } from "react";
 import { ToolbarFormat } from "@/components/editor/toolbar/toolbar-format";
 import { ToolbarSeperator } from "@/components/editor/toolbar/toolbar-seperator";
 import { ToolbarColor } from "@/components/editor/toolbar/toolbar-color";
@@ -15,7 +14,6 @@ export const Toolbar = ({
   editor: Editor | null;
   isVisible: boolean;
 }) => {
-
   const resizeHandler = () => {
     const vpHeight = window.visualViewport?.height || 0;
     const diff = window.innerHeight - vpHeight;
