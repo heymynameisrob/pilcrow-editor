@@ -3,7 +3,7 @@ import { EditorProps } from "@tiptap/pm/view";
 
 export const defaultEditorProps: EditorProps = {
   attributes: {
-    class: cn(      
+    class: cn(
       "focus:outline-none",
       "prose prose-sm md:prose-base dark:prose-invert",
       "prose-code:before:hidden prose-code:after:hidden",

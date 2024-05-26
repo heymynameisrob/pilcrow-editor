@@ -12,7 +12,7 @@ const APP_TITLE_TEMPLATE = "%s - Pilcrow Editor";
 const APP_DESCRIPTION = "Best PWA app in the world!";
 
 export const metadata: Metadata = {
-  applicationName: APP_NAME,  
+  applicationName: APP_NAME,
   title: {
     default: APP_DEFAULT_TITLE,
     template: APP_TITLE_TEMPLATE,
@@ -52,19 +52,18 @@ export const viewport: Viewport = {
   initialScale: 1,
   minimumScale: 1,
   maximumScale: 1,
-  width: "device-width",    
+  width: "device-width",
 };
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {  
-
+}>) {
   return (
-    <html suppressHydrationWarning lang="en">      
+    <html suppressHydrationWarning lang="en">
       <body className={inter.className}>
         <ThemeProvider>{children}</ThemeProvider>
-      </body>    
+      </body>
     </html>
   );
 }

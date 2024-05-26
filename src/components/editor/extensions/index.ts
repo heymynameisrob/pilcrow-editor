@@ -30,7 +30,7 @@ import TiptapUnderline from "@tiptap/extension-underline";
 import UniqueID from "@tiptap-pro/extension-unique-id";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
-import {Color} from "@/components/editor/extensions/color";
+import { Color } from "@/components/editor/extensions/color";
 import emojiSuggestions from "@/components/editor/extensions/emoji/emoji-suggestions";
 
 import CustomKeyMap from "@/components/editor/extensions/custom-keys";
@@ -38,7 +38,7 @@ import { InputRule } from "@tiptap/core";
 import SlashCommand from "@/components/editor/extensions/slash-command";
 import { Strapline } from "@/components/editor/extensions/strapline";
 import Callout from "@/components/editor/extensions/callout";
-
+import Iframe from "@/components/editor/extensions/iframe";
 
 export default [
   Document.extend({
@@ -50,7 +50,7 @@ export default [
   Markdown.configure({
     linkify: true,
     transformPastedText: true,
-    html:true,
+    html: true,
   }),
   Text,
   Heading.configure({
@@ -80,18 +80,18 @@ export default [
     },
   }),
   // Loading,
-  // AIBlock,  
+  // AIBlock,
   // Figure.configure({
   //   HTMLAttributes: {
   //     class:
   //       "outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
   //   },
   // }),
-  // Iframe.configure({
-  //   HTMLAttributes: {
-  //     class: "w-full aspect-video mb-[1.33em]",
-  //   },
-  // }),
+  Iframe.configure({
+    HTMLAttributes: {
+      class: "w-full aspect-video mb-[1.33em]",
+    },
+  }),
   TaskList.configure({
     HTMLAttributes: {
       class: "!pl-0 list-style-none",

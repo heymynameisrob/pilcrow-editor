@@ -5,7 +5,7 @@ import { Extension } from "@tiptap/core";
  * Custom Color Extension
  * Tiptap's extension uses style attribute to set color
  * This extension uses Tailwind classes instead (as we're using Tailwind Typography for editor styles)
- * 
+ *
  */
 
 export type ColorOptions = {

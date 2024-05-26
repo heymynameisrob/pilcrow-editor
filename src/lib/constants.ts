@@ -1,6 +1,10 @@
 export const EDITOR_COLOR_CLASSES = [
   { name: "default", color: "default", background: "default" },
-  { name: "gray", color: "text-gray-700 dark:text-gray-300", background: "bg-white/10" },
+  {
+    name: "gray",
+    color: "text-gray-700 dark:text-gray-300",
+    background: "bg-white/10",
+  },
   {
     name: "red",
     color: "text-red-600 dark:text-red-500",

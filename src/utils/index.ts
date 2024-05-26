@@ -58,7 +58,6 @@ export function createSlug(string: string | null) {
   return slug.replace(/[^\w-]+/g, "");
 }
 
-
 export function getCookie(name: string) {
   // get the cookie with the given name
   if (typeof document === "undefined") return null;

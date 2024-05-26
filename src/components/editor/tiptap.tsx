@@ -1,50 +1,42 @@
-'use client';
+"use client";
 
 /**
  * Tiptap Editor - Editor component using Tiptap.
  * Handles the editor state, toolbar, and AI completion.
  */
 
-import { useContext, useEffect, useRef, useState } from "react";
-import { Editor, EditorContent, useEditor } from "@tiptap/react";
+import { useEffect, useRef, useState } from "react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import { useCompletion } from "ai/react";
 
 import { defaultEditorProps } from "@/components/editor/props";
 import ExtensionList from "@/components/editor/extensions";
 import { Toolbar } from "@/components/editor/toolbar";
 
-
 export type EditorProps = {
-  handleOnSave: (editor: any) => void;  
-}
+  handleOnSave: (editor: any) => void;
+};
 
-export const TipTap = ({
-  handleOnSave,  
-} : EditorProps) => {
-  
-
+export const TipTap = ({ handleOnSave }: EditorProps) => {
   // TODO: Consider changing these states to reducers
-  const [isReady, setIsReady] = useState(false);  
+  const [isReady, setIsReady] = useState(false);
   const [isToolbarVisible, setIsToolbarVisible] = useState(false);
-
 
   /**
    * #1 – Setup Editor
    * Initialise the Tiptap editor, load in the extensions and existing content (empty string if none).
    * Handle the onUpdate event to save the content to local storage.
    */
-  const editor = useEditor({    
-    extensions: ExtensionList,     
+  const editor = useEditor({
+    extensions: ExtensionList,
     onUpdate: ({ editor }) => {
-
       // Prevents infinite loop if content is not ready.
-      if(!isReady || !editor) return;
+      if (!isReady || !editor) return;
 
-      handleOnSave(editor);            
-
+      handleOnSave(editor);
     },
     editorProps: {
-      ...defaultEditorProps
+      ...defaultEditorProps,
     },
   });
 
@@ -57,11 +49,9 @@ export const TipTap = ({
 
     const { from, to } = editor.state.selection;
     const text = editor.state.doc.textBetween(from, to);
-    
+
     setIsToolbarVisible(text.length > 0);
-
   }, [editor?.state.selection]);
-
 
   /**
    * #3 - Handle AI Completion
@@ -72,22 +62,21 @@ export const TipTap = ({
   const prev = useRef("");
   const { completion, isLoading } = useCompletion({
     id: "complete",
-    api: '/api/ai/complete',
-    onFinish: (completion) => {      
+    api: "/api/ai/complete",
+    onFinish: (completion: any) => {
       editor?.commands.setTextSelection({
         from: editor.state.selection.from - completion.length,
         to: editor.state.selection.from,
       });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       console.error("Something went wrong.", error.message);
       // TODO: Add VA tracking
     },
   });
 
   // Insert chunks of the generated text
-  useEffect(() => {    
-
+  useEffect(() => {
     const diff = completion.slice(prev.current.length);
     prev.current = completion;
     editor?.commands.insertContent(diff);
@@ -103,22 +92,21 @@ export const TipTap = ({
     if (!editor || isReady) return;
 
     const localContent = localStorage.getItem("content");
-    if(localContent) {
+    if (localContent) {
       editor.commands.setContent(JSON.parse(localContent));
     }
-    
+
     editor.commands.focus("end");
     editor.setEditable(true);
     setIsReady(true);
-
   }, [editor, isReady]);
 
-  if(!editor) return null;
+  if (!editor) return null;
 
-  return(
+  return (
     <>
       <Toolbar editor={editor} isVisible={isToolbarVisible} />
-      <EditorContent editor={editor} className="h-full max-w-2xl mx-auto" />            
+      <EditorContent editor={editor} className="h-full max-w-2xl mx-auto" />
     </>
-  )
-}
+  );
+};

@@ -6,9 +6,8 @@ export const DocContext = createContext<any>({
 });
 
 export const DocProvider = ({ children }: { children: React.ReactNode }) => {
-  
   const [title, setTitle] = useState<string>("");
-  const [lastSaved, setLastSaved] = useState<Date>(new Date());  
+  const [lastSaved, setLastSaved] = useState<Date>(new Date());
   const [markdown, setMarkdown] = useState<string>("");
 
   useEffect(() => {
@@ -24,7 +23,7 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
     const date = new Date();
     setLastSaved(date);
     localStorage.setItem("last_saved", date.toISOString());
-  }
+  };
 
   useEffect(() => {
     const lastSaved = localStorage.getItem("last_saved");
@@ -34,9 +33,9 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
     if (title) setTitle(title);
   }, []);
 
-  const providerValues = {    
+  const providerValues = {
     title,
-    setTitle,        
+    setTitle,
     lastSaved,
     handleLastSaved,
     markdown,

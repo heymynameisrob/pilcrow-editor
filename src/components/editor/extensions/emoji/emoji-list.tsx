@@ -75,7 +75,9 @@ export const EmojiList = forwardRef((props: any, ref) => {
           onClick={() => selectItem(index)}
         >
           <small className="text-xs">{item.emoji}</small>
-          <small className="text-xs text-neutral-900 dark:text-white">:{item.name}:</small>
+          <small className="text-xs text-neutral-900 dark:text-white">
+            :{item.name}:
+          </small>
         </div>
       ))}
     </div>

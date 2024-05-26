@@ -4,7 +4,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
-  useLayoutEffect,  
+  useLayoutEffect,
 } from "react";
 import { Editor } from "@tiptap/react";
 import { toast } from "sonner";
@@ -23,7 +23,7 @@ export const CommandList = ({
   editor: Editor;
   command: any;
   range?: any;
-}) => {  
+}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const commandListContainer = useRef<HTMLDivElement>(null);
 
@@ -36,12 +36,12 @@ export const CommandList = ({
     api: "/api/ai/complete",
     onResponse: (response) => {
       if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");        
+        toast.error("You have reached your request limit for the day.");
         return;
       }
     },
     onError: (e) => {
-      toast.error(e.message);      
+      toast.error(e.message);
     },
   });
 
@@ -112,7 +112,7 @@ export const CommandList = ({
     const item = container?.children[selectedIndex] as HTMLElement;
 
     if (item && container) updateScrollView(container, item);
-  }, [selectedIndex]);  
+  }, [selectedIndex]);
 
   return items.length > 0 ? (
     <div

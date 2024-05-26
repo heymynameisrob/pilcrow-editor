@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Editor - Wrapper around <TipTap /> which handles side-effects and events.
@@ -15,7 +15,6 @@ import type { JSONContent } from "@tiptap/core";
 import { Editor as EditorType } from "@tiptap/react";
 
 export const Editor = () => {
-
   const { setTitle, handleLastSaved, setMarkdown } = useContext(DocContext);
 
   /**
@@ -25,21 +24,17 @@ export const Editor = () => {
    * This logic can easily be modified to write to a database or API.
    */
 
-  const onSave = useDebouncedCallback(async (editor: EditorType) => {    
-  
+  const onSave = useDebouncedCallback(async (editor: EditorType) => {
     const content = editor.getJSON() as JSONContent;
     const title = getTitleFromJson(content);
 
-    localStorage.setItem("content", JSON.stringify(content));  
+    localStorage.setItem("content", JSON.stringify(content));
     setTitle(title);
     handleLastSaved(new Date());
 
     const markdown = editor.storage.markdown.getMarkdown();
     setMarkdown(markdown);
-
   }, 750);
 
-  return (
-    <TipTap handleOnSave={(editor: EditorType) => onSave(editor)} />
-  );
-}
+  return <TipTap handleOnSave={(editor: EditorType) => onSave(editor)} />;
+};

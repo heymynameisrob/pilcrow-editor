@@ -6,7 +6,7 @@ export { ArrowRightIcon } from "@radix-ui/react-icons";
 export { ArrowUpIcon } from "@radix-ui/react-icons";
 export { AvatarIcon } from "@radix-ui/react-icons";
 export { BrainIcon } from "lucide-react";
-export { BookOpenIcon as CollectionIcon } from "lucide-react"
+export { BookOpenIcon as CollectionIcon } from "lucide-react";
 export { CardStackIcon as NoteIcon } from "@radix-ui/react-icons";
 export { ChatBubbleIcon } from "@radix-ui/react-icons";
 export { CheckIcon } from "@radix-ui/react-icons";

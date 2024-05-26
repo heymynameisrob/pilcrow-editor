@@ -1,6 +1,12 @@
-'use client';
+"use client";
 
-import { BoldIcon, CodeIcon, ItalicIcon, LinkIcon, UnderlineIcon } from "@/components/icons";
+import {
+  BoldIcon,
+  CodeIcon,
+  ItalicIcon,
+  LinkIcon,
+  UnderlineIcon,
+} from "@/components/icons";
 import { Toggle } from "@/components/ui/toggle";
 
 import type { Editor } from "@tiptap/react";
@@ -15,12 +21,12 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
     }
 
     const url = window.prompt("Enter the URL of the link:");
-    if(url) editor.commands.setLink({ href: url });
+    if (url) editor.commands.setLink({ href: url });
   };
 
   return (
     <div className="flex justify-center items-center">
-      <Toggle        
+      <Toggle
         size="sm"
         pressed={editor.isActive("bold")}
         title="Bold"
@@ -31,7 +37,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
       >
         <BoldIcon />
       </Toggle>
-      <Toggle        
+      <Toggle
         size="sm"
         pressed={editor.isActive("italic")}
         title="Italic"
@@ -42,7 +48,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
       >
         <ItalicIcon />
       </Toggle>
-      <Toggle        
+      <Toggle
         size="sm"
         pressed={editor.isActive("underline")}
         title="Underline"
@@ -53,7 +59,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
       >
         <UnderlineIcon />
       </Toggle>
-      <Toggle        
+      <Toggle
         size="sm"
         pressed={editor.isActive("link")}
         title="Link"
@@ -64,7 +70,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
       >
         <LinkIcon />
       </Toggle>
-      <Toggle        
+      <Toggle
         size="sm"
         pressed={editor.isActive("code")}
         title="Inline code"
@@ -74,7 +80,7 @@ export const ToolbarFormat = ({ editor }: { editor: Editor }) => {
         onPressedChange={() => editor.commands.toggleCode()}
       >
         <CodeIcon />
-      </Toggle>            
+      </Toggle>
     </div>
   );
 };

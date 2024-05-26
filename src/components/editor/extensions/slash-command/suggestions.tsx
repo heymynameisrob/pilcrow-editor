@@ -1,11 +1,9 @@
 import { ReactNode } from "react";
-// import { uploadEditorImage } from "@/components/tiptap/extensions/image-upload";
 import {
   CheckBoxIcon,
   CodeIcon,
   Heading2Icon,
-  Heading3Icon,
-  ImageIcon,
+  Heading3Icon,  
   InfoIcon,
   ListIcon,
   MagicWandIcon,

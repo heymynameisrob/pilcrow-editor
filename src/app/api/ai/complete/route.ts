@@ -10,19 +10,15 @@ const openai = new OpenAI({
 export const runtime = "edge";
 
 export async function POST(req: Request): Promise<Response> {
-  
   if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === "") {
-    return new Response(
-      "Missing OPENAI_API_KEY.",
-      {
-        status: 400,
-      },
-    );
+    return new Response("Missing OPENAI_API_KEY.", {
+      status: 400,
+    });
   }
-  
+
   /**
    * #1 - Rate limit the API to 20 requests per day.
-   * This is because we have a live production example. 
+   * This is because we have a live production example.
    * Change this to a higher value if you're running your own instance.
    */
   const REQUESTS_PER_DAY = 20;
@@ -84,14 +80,13 @@ export async function POST(req: Request): Promise<Response> {
     // Leave these
     stream: true,
     n: 1,
-    
+
     // Play with these
-    temperature: 0.7,  
+    temperature: 0.7,
     frequency_penalty: 1.0,
-    presence_penalty: 0, 
+    presence_penalty: 0,
   });
 
-    
   const stream = OpenAIStream(response);
   return new StreamingTextResponse(stream);
 }

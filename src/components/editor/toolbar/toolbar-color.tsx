@@ -45,7 +45,7 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Toggle          
+        <Toggle
           size="sm"
           title="Color"
           aria-label="Color"
@@ -53,7 +53,14 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
           role="tooltip"
           className="gap-1 data-[state=on]:bg-white/10 dark:data-[state=on]:bg-white/10"
         >
-          <small className={cn("!text-sm px-1 rounded font-medium capitalize", color)}>A</small>
+          <small
+            className={cn(
+              "!text-sm px-1 rounded font-medium capitalize",
+              color,
+            )}
+          >
+            A
+          </small>
           <ChevronDownIcon />
         </Toggle>
       </DropdownMenuTrigger>
@@ -61,7 +68,9 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
         align="start"
         className="max-h-[240px] overflow-y-auto"
       >
-        <DropdownMenuLabel className="text-xs opacity-60">Text</DropdownMenuLabel>
+        <DropdownMenuLabel className="text-xs opacity-60">
+          Text
+        </DropdownMenuLabel>
         <DropdownMenuRadioGroup value={color} onValueChange={handleSetColor}>
           <>
             {EDITOR_COLOR_CLASSES.map((color: any) => (
@@ -80,7 +89,9 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
               </DropdownMenuRadioItem>
             ))}
             <DropdownMenuSeparator />
-            <DropdownMenuLabel className="text-xs opacity-60">Background</DropdownMenuLabel>
+            <DropdownMenuLabel className="text-xs opacity-60">
+              Background
+            </DropdownMenuLabel>
             {EDITOR_COLOR_CLASSES.map((color: any) => (
               <DropdownMenuRadioItem value={color.background} key={color.name}>
                 <div className="flex justify-center items-center gap-2">
