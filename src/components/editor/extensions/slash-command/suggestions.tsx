@@ -3,7 +3,7 @@ import {
   CheckBoxIcon,
   CodeIcon,
   Heading2Icon,
-  Heading3Icon,  
+  Heading3Icon,
   InfoIcon,
   ListIcon,
   MagicWandIcon,

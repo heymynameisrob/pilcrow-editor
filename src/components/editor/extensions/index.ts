@@ -39,6 +39,7 @@ import SlashCommand from "@/components/editor/extensions/slash-command";
 import { Strapline } from "@/components/editor/extensions/strapline";
 import Callout from "@/components/editor/extensions/callout";
 import Iframe from "@/components/editor/extensions/iframe";
+import { Figure } from "@/components/editor/extensions/figure";
 
 export default [
   Document.extend({
@@ -81,12 +82,12 @@ export default [
   }),
   // Loading,
   // AIBlock,
-  // Figure.configure({
-  //   HTMLAttributes: {
-  //     class:
-  //       "outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-  //   },
-  // }),
+  Figure.configure({
+    HTMLAttributes: {
+      class:
+        "flex flex-col items-center outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+    },
+  }),
   Iframe.configure({
     HTMLAttributes: {
       class: "w-full aspect-video mb-[1.33em]",
@@ -214,63 +215,51 @@ export default [
   // CustomHighlight.configure({
   //   multicolor: true,
   // }),
-  // FileHandler.configure({
-  //   allowedMimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"],
-  //   onDrop: (currentEditor: any, files: Array<File>, pos: any) => {
-  //     files.forEach((file: any) => {
-  //       const fileReader = new FileReader();
+  FileHandler.configure({
+    allowedMimeTypes: ["image/png", "image/jpeg", "image/gif", "image/webp"],
+    onDrop: (currentEditor: any, files: Array<File>, pos: any) => {
+      files.forEach((file: any) => {
+        const fileReader = new FileReader();
 
-  //       fileReader.readAsDataURL(file);
-  //       fileReader.onload = () => {
-  //         uploadEditorImage(file)
-  //           .then((res: any) => {
-  //             currentEditor
-  //               .chain()
-  //               .insertContentAt(pos, {
-  //                 type: "image",
-  //                 attrs: {
-  //                   src: res,
-  //                 },
-  //               })
-  //               .run();
-  //           })
-  //           .catch((err: any) => {
-  //             console.log(err);
-  //             return false;
-  //           });
-  //       };
-  //       return false;
-  //     });
-  //   },
-  //   onPaste: (
-  //     currentEditor: any,
-  //     files: Array<File>,
-  //     htmlContent: string | undefined,
-  //   ) => {
-  //     if (htmlContent) {
-  //       // if there is htmlContent, stop manual insertion & let other extensions handle insertion via inputRule
-  //       // you could extract the pasted file from this url string and upload it to a server for example
-  //       console.log(htmlContent); // eslint-disable-line no-console
-  //       return false;
-  //     }
-  //     currentEditor.commands.insertContent("<loading-component />");
+        fileReader.readAsDataURL(file);
 
-  //     files.forEach((file: any) => {
-  //       const fileReader = new FileReader();
+        fileReader.onload = () => {
+          currentEditor
+          .chain()
+          .insertContentAt(pos, {
+            type: "figure",
+            attrs: {
+              src: fileReader.result,
+            },
+          })
+          .run();        
+        };
 
-  //       fileReader.readAsDataURL(file);
-  //       fileReader.onload = () => {
-  //         uploadEditorImage(file)
-  //           .then((res: any) => {
-  //             currentEditor.chain().focus().setImage({ src: res }).run();
-  //           })
-  //           .catch((err: any) => {
-  //             console.log(err);
-  //             return false;
-  //           });
-  //       };
-  //       return false;
-  //     });
-  //   },
-  // }),
+        return false;
+      });
+    },
+    onPaste: (
+      currentEditor: any,
+      files: Array<File>,
+      htmlContent: string | undefined,
+    ) => {
+      if (htmlContent) {
+        // if there is htmlContent, stop manual insertion & let other extensions handle insertion via inputRule
+        // you could extract the pasted file from this url string and upload it to a server for example
+        console.log(htmlContent); // eslint-disable-line no-console
+        return false;
+      }
+      // currentEditor.commands.insertContent("<loading-component />");
+
+      files.forEach((file: any) => {
+        const fileReader = new FileReader();
+
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          currentEditor.chain().focus().setFigure({ src: fileReader.result }).run();
+        };
+        return false;
+      });
+    },
+  }),
 ];

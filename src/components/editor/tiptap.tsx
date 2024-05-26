@@ -9,9 +9,9 @@ import { useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useCompletion } from "ai/react";
 
+import { Toolbar } from "@/components/editor/toolbar";
 import { defaultEditorProps } from "@/components/editor/props";
 import ExtensionList from "@/components/editor/extensions";
-import { Toolbar } from "@/components/editor/toolbar";
 
 export type EditorProps = {
   handleOnSave: (editor: any) => void;
