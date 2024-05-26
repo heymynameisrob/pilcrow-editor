@@ -19,8 +19,8 @@ export const Toolbar = ({
   const resizeHandler = () => {
     const vpHeight = window.visualViewport?.height || 0;
     const diff = window.innerHeight - vpHeight;
-    document.documentElement.style.setProperty("--diff", `${diff}px`);    
-  }
+    document.documentElement.style.setProperty("--diff", `${diff}px`);
+  };
 
   useEffect(() => {
     resizeHandler();
@@ -28,7 +28,7 @@ export const Toolbar = ({
 
     return () => {
       window?.visualViewport?.removeEventListener("resize", resizeHandler);
-    }    
+    };
   }, []);
 
   if (!editor) return null;
@@ -46,7 +46,9 @@ export const Toolbar = ({
           "flex flex-row items-center gap-1 justify-start p-0.5 transition-all ease-out",
           "w-full bg-neutral-100 text-neutral-900 border-t border-black/10 dark:border-white/10 dark:bg-neutral-900 dark:text-white",
           "md:rounded-lg md:justify-between md:w-auto md:border md:bg-neutral-900 md:text-white md:shadow-[0px_0px_0px_0.5px_rgb(0_0_0_/_0.40),_0px_1px_1px_-1px_rgb(0_0_0_/_0.12),_0px_4px_6px_0px_rgb(0_0_0_/_0.05),_0px_10px_16px_0px_rgb(0_0_0_/_0.1),_inset_0px_0.5px_0px_rgb(255_255_255_/_0.06),_inset_0px_0px_1px_0px_rgb(255_255_255_/_0.16),_inset_0px_-6px_12px_-4px_rgb(0_0_0_/_0.16)]",
-          isVisible ? "md:opacity-100 md:translate-y-0" : "md:opacity-0 md:translate-y-3",
+          isVisible
+            ? "md:opacity-100 md:translate-y-0"
+            : "md:opacity-0 md:translate-y-3",
         )}
       >
         <ToolbarFormat editor={editor} />
