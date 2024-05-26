@@ -41,7 +41,7 @@ import Callout from "@/components/editor/extensions/callout";
 import Iframe from "@/components/editor/extensions/iframe";
 import { Figure } from "@/components/editor/extensions/figure";
 
-export default [
+const extensions = [
   Document.extend({
     content: "heading block*",
   }),
@@ -225,14 +225,14 @@ export default [
 
         fileReader.onload = () => {
           currentEditor
-          .chain()
-          .insertContentAt(pos, {
-            type: "figure",
-            attrs: {
-              src: fileReader.result,
-            },
-          })
-          .run();        
+            .chain()
+            .insertContentAt(pos, {
+              type: "figure",
+              attrs: {
+                src: fileReader.result,
+              },
+            })
+            .run();
         };
 
         return false;
@@ -256,10 +256,16 @@ export default [
 
         fileReader.readAsDataURL(file);
         fileReader.onload = () => {
-          currentEditor.chain().focus().setFigure({ src: fileReader.result }).run();
+          currentEditor
+            .chain()
+            .focus()
+            .setFigure({ src: fileReader.result })
+            .run();
         };
         return false;
       });
     },
   }),
 ];
+
+export default extensions;
