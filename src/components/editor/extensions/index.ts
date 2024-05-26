@@ -243,13 +243,11 @@ const extensions = [
       files: Array<File>,
       htmlContent: string | undefined,
     ) => {
-      if (htmlContent) {
-        // if there is htmlContent, stop manual insertion & let other extensions handle insertion via inputRule
-        // you could extract the pasted file from this url string and upload it to a server for example
-        console.log(htmlContent); // eslint-disable-line no-console
-        return false;
-      }
-      // currentEditor.commands.insertContent("<loading-component />");
+      
+      /**
+       * Ignore HTML content as Markdown extension sorts that out for us
+      */  
+      if (htmlContent) return false;    
 
       files.forEach((file: any) => {
         const fileReader = new FileReader();
@@ -259,7 +257,7 @@ const extensions = [
           currentEditor
             .chain()
             .focus()
-            .setFigure({ src: fileReader.result })
+            .setFigure({ src: fileReader.result }) // Base64
             .run();
         };
         return false;
