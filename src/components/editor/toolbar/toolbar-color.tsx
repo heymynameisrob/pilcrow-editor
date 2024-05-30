@@ -12,7 +12,7 @@ import {
 import { Toggle } from "@/components/ui/toggle";
 import { ChevronDownIcon } from "@/components/icons";
 import { cn } from "@/utils";
-import { EDITOR_COLOR_CLASSES } from "@/lib/constants";
+import { EDITOR_COLOR_CLASSES } from "@/utils/constants";
 
 import type { Editor } from "@tiptap/react";
 

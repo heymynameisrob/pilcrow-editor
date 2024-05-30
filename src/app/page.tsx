@@ -12,7 +12,7 @@ export default function MainPage() {
     <DocProvider>
       <main className="h-screen overflow-y-scroll py-24 px-4">
         <Editor />
-        <div className="fixed flex justify-between items-center gap-2 top-0 left-0 w-full p-4">
+        <div className="fixed w-full bg-gradient-to-b from-white to-transparent z-50 top-0 left-0 flex gap-2 flex-row items-center justify-between px-4 py-2 h-14 backdrop-blur-sm dark:from-neutral-950 md:backdrop-blur-none">
           <Title />
           <TopMenu />
         </div>

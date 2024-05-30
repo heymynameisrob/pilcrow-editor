@@ -4,7 +4,7 @@ import BulletList from "@tiptap/extension-bullet-list";
 import Paragraph from "@tiptap/extension-paragraph";
 import CharacterCount from "@tiptap/extension-character-count";
 import Code from "@tiptap/extension-code";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+// import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 // import { Color } from "@/components/tiptap/extensions/color";
 // import CustomKeyMap from "@/components/tiptap/extensions/custom-keys";
 import Document from "@tiptap/extension-document";

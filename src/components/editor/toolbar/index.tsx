@@ -4,6 +4,7 @@ import { ToolbarFormat } from "@/components/editor/toolbar/toolbar-format";
 import { ToolbarSeperator } from "@/components/editor/toolbar/toolbar-seperator";
 import { ToolbarColor } from "@/components/editor/toolbar/toolbar-color";
 import { cn } from "@/utils";
+import { isIOS } from "@/utils/flags";
 
 import type { Editor } from "@tiptap/react";
 
@@ -15,13 +16,25 @@ export const Toolbar = ({
   isVisible: boolean;
 }) => {
   const resizeHandler = () => {
+    if (!window.visualViewport) return;
+
+    /**
+     * #1 - Calculating viewport
+     * So iOS is annoying and doesn't fix things to the visualViewport (e.g when the keyboard is open)
+     * So we need to calculate this diff whenever that changes (e.g when the keyboard is open)
+     * The conditional means that the padding that clears the home indicator is removed
+     */
+
     const vpHeight = window.visualViewport?.height || 0;
     const diff = window.innerHeight - vpHeight;
-    document.documentElement.style.setProperty("--diff", `${diff}px`);
+    document.documentElement.style.setProperty(
+      "--diff",
+      `${diff - (diff > 0 ? 32 : 0)}px`,
+    );
   };
 
   useEffect(() => {
-    resizeHandler();
+    resizeHandler(); // First go
     window?.visualViewport?.addEventListener("resize", resizeHandler);
 
     return () => {
@@ -47,6 +60,7 @@ export const Toolbar = ({
           isVisible
             ? "md:opacity-100 md:translate-y-0"
             : "md:opacity-0 md:translate-y-3",
+          isIOS() && "pb-8",
         )}
       >
         <ToolbarFormat editor={editor} />

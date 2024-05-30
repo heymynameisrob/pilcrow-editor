@@ -9,7 +9,7 @@ export const Title = () => {
 
   return (
     <div className="flex items-baseline gap-1">
-      <small className="font-medium">{title}</small>
+      <small className="font-medium">{title || "Untitled"}</small>
       <small className="opacity-70">{moment(lastSaved).fromNow()}</small>
     </div>
   );

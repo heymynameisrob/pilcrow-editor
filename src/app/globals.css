@@ -10,6 +10,35 @@
   --theme-color:#000;
 }
 
+/* Type */
+h1:not(.prose h1, .EmojiPickerReact h1, .home h1) {
+  @apply text-2xl leading-9 tracking-tight
+}
+
+h2:not(.prose h2, .EmojiPickerReact h2, .home h2) {
+  @apply text-xl leading-8 tracking-tight
+}
+
+h3:not(.prose h3, .EmojiPickerReact h3, .home h3) {
+  @apply text-lg leading-7 tracking-tight
+}
+
+h4:not(.prose h4, .EmojiPickerReact h4, .home h4) {
+  @apply text-base leading-6 font-medium tracking-tight
+}
+
+p:not(.prose p, .EmojiPickerReact p, .home p) {
+  @apply text-base leading-6 tracking-tight
+}
+
+small:not(.prose small, .EmojiPickerReact small, .home small) {
+  @apply text-sm leading-5
+}
+
+span:not(.prose span, .EmojiPickerReact span, .home span) {
+  @apply text-xs leading-5
+}
+
 
 /* Tip Tap CSS */
 .tiptap .is-editor-empty:first-child::before {
