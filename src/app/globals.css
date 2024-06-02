@@ -4,6 +4,8 @@
 
 :root {
   --theme-color:#fff;
+  --color-accent: hsl(206, 100%, 50%);
+  --color-annotation: hsla(206, 100%, 50%, 0.2);
 }
 
 [data-theme="dark"]:root {
@@ -63,6 +65,14 @@ span:not(.prose span, .EmojiPickerReact span, .home span) {
 }
 .prose h1 + .strapline {
   @apply !mt-0
+}
+.tiptap span[data-note-id] {
+  background-color: var(--color-annotation);
+  border-bottom:2px solid var(--color-accent);
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 [aria-label][role~=tooltip]::after {

@@ -1,4 +1,6 @@
 "use client";
+import { useLocalStorage } from "@/hooks/local";
+import { Note } from "@/utils/types";
 import React, { createContext, useEffect, useState } from "react";
 
 export const DocContext = createContext<any>({
@@ -9,6 +11,9 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
   const [title, setTitle] = useState<string>("");
   const [lastSaved, setLastSaved] = useState<Date>(new Date());
   const [markdown, setMarkdown] = useState<string>("");
+  const [currentNoteId, setcurrentNoteId] = useState<string | null>(null);
+
+  const [notes, setNotes] = useLocalStorage<Array<Note>>("notes", []);
 
   useEffect(() => {
     if (title === document.title) return;
@@ -40,6 +45,10 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
     handleLastSaved,
     markdown,
     setMarkdown,
+    currentNoteId,
+    setcurrentNoteId,
+    notes,
+    setNotes,
   };
 
   return (

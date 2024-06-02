@@ -18,9 +18,7 @@ export const defaultEditorProps: EditorProps = {
       if (["ArrowUp", "ArrowDown", "Enter"].includes(event.key)) {
         // prevent default event listeners from firing when slash command is active
         const slashCommand = document.querySelector("#slash-command");
-        if (slashCommand) {
-          return true;
-        }
+        if (slashCommand) return true;
       }
     },
   },

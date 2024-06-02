@@ -7,6 +7,7 @@ import { cn } from "@/utils";
 import { isIOS } from "@/utils/flags";
 
 import type { Editor } from "@tiptap/react";
+import { ToolbarNotes } from "@/components/editor/toolbar/toolbar-notes";
 
 export const Toolbar = ({
   editor,
@@ -64,8 +65,9 @@ export const Toolbar = ({
         )}
       >
         <ToolbarFormat editor={editor} />
-        <ToolbarSeperator />
         <ToolbarColor editor={editor} />
+        <ToolbarSeperator />
+        <ToolbarNotes editor={editor} />
       </div>
     </div>
   );
