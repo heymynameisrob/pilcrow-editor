@@ -4,6 +4,7 @@ import React, {
   SetStateAction,
   createContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { useLocalStorage } from "@/hooks/local";
@@ -47,6 +48,7 @@ export const DocContext = createContext<ContextProps>({
 });
 
 export const DocProvider = ({ children }: { children: React.ReactNode }) => {
+  const ref = useRef<any>(null);
   const [docId, setDocId] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("");
   const [lastSaved, setLastSaved] = useState<Date | string>(new Date());
@@ -69,6 +71,16 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
     const date = new Date();
     setLastSaved(date);
   };
+
+  useEffect(() => { 
+    if(ref.current) return;
+
+    const recentDocId = localStorage.getItem("recent_doc");
+    if (recentDocId) {
+      setDocId(recentDocId);
+      ref.current = recentDocId;
+    }
+  }, []);
 
   const providerValues = {
     title,

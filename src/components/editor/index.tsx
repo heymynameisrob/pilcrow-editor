@@ -158,6 +158,8 @@ export const Editor = () => {
         setNotes(doc.notes);
         setTitle(doc.title);
       });
+    } else {
+      editor.commands.clearContent();
     }
 
     editor.commands.focus("end");

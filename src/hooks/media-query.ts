@@ -20,10 +20,10 @@ export function useMediaQuery(
    * Return default value if fired server-side
    * Just a hack of Next where everything using window needs to be guarded and done in useEffect/useLayoutEffect
    */
-  
+
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
-    
+
     const media = window.matchMedia(query || "(min-width: 768px)");
 
     const onChange = (event: MediaQueryListEvent) => {

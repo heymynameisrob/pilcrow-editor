@@ -3,22 +3,22 @@ import moment from "moment";
 const RELATIVE_TIME = {
   future: "in %s",
   past: "%s ago",
-  s: "seconds",
+  s: "1 sec",
   ss: "%ss",
-  m: "a minute",
+  m: "min",
   mm: "%dm",
-  h: "an hour",
+  h: "hour",
   hh: "%dh",
-  d: "a day",
+  d: "day",
   dd: "%dd",
-  M: "a month",
+  M: "month",
   MM: "%dM",
-  y: "a year",
+  y: "year",
   yy: "%dY",
 };
 
 export function getTimeFromNow(date: string | Date): string {
-  moment.locale("en", {
+  moment.defineLocale("en", {
     relativeTime: RELATIVE_TIME,
   });
 

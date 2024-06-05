@@ -40,7 +40,6 @@ import { useMediaQuery } from "@/hooks/media-query";
 import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { getTimeFromNow } from "@/utils/time";
 
-
 export const TopMenuMore = () => {
   const { markdown, title, lastSaved } = useContext(DocContext);
   const { theme, setTheme } = useTheme();
@@ -82,7 +81,7 @@ export const TopMenuMore = () => {
           </Toggle>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuGroup className="flex flex-col gap-1">
+          <DropdownMenuGroup className="flex flex-col gap-1 pb-2">
             <DropdownMenuLabel className="pb-0">
               {title || "Untitled"}
             </DropdownMenuLabel>

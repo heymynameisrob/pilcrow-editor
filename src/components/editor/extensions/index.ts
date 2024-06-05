@@ -40,6 +40,10 @@ import { Strapline } from "@/components/editor/extensions/strapline";
 import Callout from "@/components/editor/extensions/callout";
 import Iframe from "@/components/editor/extensions/iframe";
 import { Figure } from "@/components/editor/extensions/figure";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { ReactNodeViewRenderer } from "@tiptap/react";
+import { CodeBlockComponent } from "@/components/editor/extensions/codeblock";
+import { lowlight } from "lowlight/lib/common";
 
 const extensions = [
   Document.extend({
@@ -77,7 +81,7 @@ const extensions = [
     emoji: "📣",
     HTMLAttributes: {
       class:
-        "relative p-4 pl-12 rounded-md bg-ui-low text-primary before:content-[attr(data-emoji)] before:absolute before:top-4 before:left-4 before:text-base",
+        "relative p-4 pl-12 rounded-md bg-black/10 border border-black/10 text-primary before:content-[attr(data-emoji)] before:absolute before:top-4 before:left-4 before:text-base dark:bg-white/10 dark:border-white/10",
     },
   }),
   // Loading,
@@ -135,17 +139,17 @@ const extensions = [
       spellcheck: "false",
     },
   }),
-  // CodeBlockLowlight.extend({
-  //   addNodeView() {
-  //     return ReactNodeViewRenderer(CodeBlockComponent);
-  //   },
-  // }).configure({
-  //   HTMLAttributes: {
-  //     class: "rounded-lg bg-ui-low px-1.5 py-1 font-mono text-sm text-primary",
-  //     spellcheck: "false",
-  //   },
-  //   lowlight,
-  // }),
+  CodeBlockLowlight.extend({
+    addNodeView() {
+      return ReactNodeViewRenderer(CodeBlockComponent);
+    },
+  }).configure({
+    HTMLAttributes: {
+      class: "rounded-lg bg-black/5 border border-black/10 px-1.5 py-1 font-mono text-sm text-primary dark:bg-white/10 dark:border-white/10",
+      spellcheck: "false",
+    },
+    lowlight,
+  }),
   Blockquote.configure({
     HTMLAttributes: {
       class: "border-l-4 border-primary",

@@ -43,9 +43,9 @@ export function useDocs(): UseDocType {
     } else {
       await add(doc);
     }
-    if(doc.id === recent) return;
+    if (doc.id === recent) return;
 
-    setRecent(doc.id);    
+    setRecent(doc.id);
   };
 
   const saveNoteToDoc = async (id: string, note: Note) => {

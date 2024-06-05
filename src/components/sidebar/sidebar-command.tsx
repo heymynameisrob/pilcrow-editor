@@ -35,8 +35,7 @@ export const SidebarCommandList = () => {
   const [docs, setDocs] = useState<Array<Doc> | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [value, setValue] = useState<string>("");
-  const { setDocId, isSidebarOpen, setIsSidebarOpen } =
-    useContext(DocContext);
+  const { setDocId, isSidebarOpen, setIsSidebarOpen } = useContext(DocContext);
 
   const { getDocs } = useDocs();
 
@@ -96,6 +95,7 @@ export const SidebarCommandList = () => {
 
   return (
     <Command
+      loop={true}
       filter={(value, search) => {
         // split _ to get the title
         if (value.toLowerCase().includes(search.toLowerCase())) return 1;

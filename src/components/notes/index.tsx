@@ -39,12 +39,10 @@ export const Notes = ({ editor }: { editor: Editor }) => {
 
   return (
     <InlinePopover editor={editor} markType="note">
-      <div className="flex flex-col p-2 py-2.5 gap-2 w-64">
+      <div className="flex flex-col w-48">
         <div className="flex flex-row justify-between items-center gap-2">
-          <div className="flex flex-row items-center gap-2">
-            <div className="flex flex-row items-baseline gap-1">
-              <small className="opacity-80">Note to self</small>
-            </div>
+          <div className="px-2">
+            <small className="text-xs opacity-80">Note to self</small>
           </div>
           <Button
             title="Mark resolved"
@@ -58,10 +56,12 @@ export const Notes = ({ editor }: { editor: Editor }) => {
             <CheckIcon />
           </Button>
         </div>
-        <p>{note.content}</p>
-        <span className="opacity-60">
-          {note?.created_at && getTimeFromNow(note?.created_at)}
-        </span>
+        <div className="px-2">
+          <p>{note.content}</p>
+          <span className="opacity-60">
+            {note?.created_at && getTimeFromNow(note?.created_at)}
+          </span>
+        </div>
       </div>
     </InlinePopover>
   );
