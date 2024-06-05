@@ -145,7 +145,8 @@ const extensions = [
     },
   }).configure({
     HTMLAttributes: {
-      class: "rounded-lg bg-black/5 border border-black/10 px-1.5 py-1 font-mono text-sm text-primary dark:bg-white/10 dark:border-white/10",
+      class:
+        "rounded-lg bg-black/5 border border-black/10 px-1.5 py-1 font-mono text-sm text-primary dark:bg-white/10 dark:border-white/10",
       spellcheck: "false",
     },
     lowlight,

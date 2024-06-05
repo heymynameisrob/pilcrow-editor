@@ -72,8 +72,8 @@ export const DocProvider = ({ children }: { children: React.ReactNode }) => {
     setLastSaved(date);
   };
 
-  useEffect(() => { 
-    if(ref.current) return;
+  useEffect(() => {
+    if (ref.current) return;
 
     const recentDocId = localStorage.getItem("recent_doc");
     if (recentDocId) {

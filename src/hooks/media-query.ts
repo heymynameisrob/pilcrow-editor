@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 /**
  * Use Media Query Hook - Checks media size using Match Media API.

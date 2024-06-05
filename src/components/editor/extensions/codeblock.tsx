@@ -62,7 +62,7 @@ export const CodeBlockComponent = ({
         <CopyIcon />
       </Button>
       <pre className="rounded-lg bg-neutral-800 border border-white/10 font-mono text-sm text-neutral-100">
-        <NodeViewContent as="code"  />
+        <NodeViewContent as="code" />
       </pre>
     </NodeViewWrapper>
   );
