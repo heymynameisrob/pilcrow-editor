@@ -12,7 +12,11 @@ export function useLocalStorage<T>(
     try {
       const item = localStorage.getItem(key);
       if (item) {
-        setStoredValue(JSON.parse(item) as T);
+        if (typeof item === "object") {
+          setStoredValue(JSON.parse(item) as T);
+        } else {
+          setStoredValue(item as T);
+        }
       }
     } catch (error) {
       console.error(error);

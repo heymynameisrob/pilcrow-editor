@@ -100,14 +100,25 @@ const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-neutral-500 dark:text-neutral-400", className)}
+    className={cn("text-neutral-500 dark:text-neutral-400", className)}
     {...props}
   />
 ));
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
-const DrawerMenuGroup = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex select-none flex-col gap-px py-4 outline-none">
+const DrawerMenuGroup = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <div
+    className={cn(
+      "flex select-none flex-col gap-px py-4 outline-none",
+      className,
+    )}
+  >
     {children}
   </div>
 );

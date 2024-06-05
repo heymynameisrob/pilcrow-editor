@@ -48,7 +48,7 @@ export const Toolbar = ({
   return (
     <div
       className={cn(
-        "fixed left-0 right-0 mx-auto z-50 flex flex-col items-center bg-none",
+        "fixed left-0 right-0 mx-auto z-40 flex flex-col items-center bg-none",
         "bottom-0 -translate-y-[var(--diff)] md:translate-y-0 md:bottom-[32px] transition-all ease-out",
         isVisible ? "md:pointer-events-auto" : "md:pointer-events-none",
       )}

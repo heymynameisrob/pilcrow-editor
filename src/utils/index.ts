@@ -144,3 +144,7 @@ export function prepareStringForApi(text: string) {
   // Return the processed text
   return processedText;
 }
+
+export function stripParamId(id: string) {
+  return id.split("-")[id.split("-").length - 1];
+}

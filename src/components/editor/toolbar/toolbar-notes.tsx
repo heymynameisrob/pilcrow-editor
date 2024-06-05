@@ -39,7 +39,6 @@ export const ToolbarNotes = ({ editor }: { editor: Editor }) => {
     <Popover open={open} onOpenChange={setIsOpen} modal={true}>
       <PopoverAnchor>
         <Toggle
-          variant="black"
           size="sm"
           title="Note to self"
           aria-label="Note to self"
@@ -53,7 +52,7 @@ export const ToolbarNotes = ({ editor }: { editor: Editor }) => {
       </PopoverAnchor>
       <PopoverContent
         onInteractOutside={() => {
-          if (editor?.isActive("note")) {
+          if (editor?.isActive("note") && currentNoteId) {
             editor?.commands.unsetNote(currentNoteId);
           }
           setIsOpen(false);

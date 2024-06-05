@@ -7,9 +7,9 @@
  */
 
 import { useContext, useEffect, useState } from "react";
-import moment from "moment";
 import { DocContext } from "@/context/doc";
 import { InlinePopover } from "@/components/editor/inline-popover";
+import { getTimeFromNow } from "@/utils/time";
 import { Button } from "@/components/ui/button";
 import { CheckIcon } from "@/components/icons";
 
@@ -17,14 +17,14 @@ import type { Editor } from "@tiptap/react";
 import type { Note } from "@/utils/types";
 
 export const Notes = ({ editor }: { editor: Editor }) => {
-  const { currentNoteId, notes } = useContext(DocContext);
+  const { notes, currentNoteId } = useContext(DocContext);
   const [note, setNote] = useState<Note | null>(null);
 
   const selectedNodeIsNote =
     editor.isActive("note") && editor.getAttributes("note").noteId;
 
   useEffect(() => {
-    if (!selectedNodeIsNote || !notes) return;
+    if (!selectedNodeIsNote || notes.length > 1) return;
 
     const currentNote =
       notes &&
@@ -33,7 +33,7 @@ export const Notes = ({ editor }: { editor: Editor }) => {
       });
 
     setNote(currentNote[0]);
-  }, [selectedNodeIsNote, editor]);
+  }, [notes, selectedNodeIsNote, editor]);
 
   if (!note) return null;
 
@@ -59,7 +59,9 @@ export const Notes = ({ editor }: { editor: Editor }) => {
           </Button>
         </div>
         <p>{note.content}</p>
-        <span className="opacity-60">{moment(note?.created_at).fromNow()}</span>
+        <span className="opacity-60">
+          {note?.created_at && getTimeFromNow(note?.created_at)}
+        </span>
       </div>
     </InlinePopover>
   );

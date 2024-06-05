@@ -8,8 +8,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useDebouncedCallback } from "use-debounce";
+import { nanoid } from "ai";
 import { useCompletion } from "ai/react";
-import { useLocalStorage } from "@/hooks/local";
+import { useDocs } from "@/hooks/docs";
 import { DocContext } from "@/context/doc";
 import { Toolbar } from "@/components/editor/toolbar";
 import { defaultEditorProps } from "@/components/editor/props";
@@ -22,18 +23,21 @@ import Note from "@/components/editor/extensions/note";
 
 import type { JSONContent } from "@tiptap/react";
 
-export type EditorProps = {
-  handleOnSave: (editor: any) => void;
-};
-
 export const Editor = () => {
   const [isReady, setIsReady] = useState(false);
   const [isToolbarVisible, setIsToolbarVisible] = useState(false);
 
-  const { setTitle, handleLastSaved, setMarkdown, setcurrentNoteId } =
-    useContext(DocContext);
+  const {
+    notes,
+    setNotes,
+    docId,
+    setTitle,
+    handleLastSaved,
+    setMarkdown,
+    setcurrentNoteId,
+  } = useContext(DocContext);
 
-  const [content, setContent] = useLocalStorage<string>("content", "");
+  const { saveDoc, getDoc } = useDocs();
 
   /**
    * #1 - Save the content to local storage
@@ -45,8 +49,20 @@ export const Editor = () => {
   const handleOnSave = useDebouncedCallback(async (editor: any) => {
     const content = editor.getJSON() as JSONContent;
     const title = getTitleFromJson(content);
+    const isContentEmpty =
+      content.content && content.content[0].content === undefined;
 
-    setContent(JSON.stringify(content));
+    // Prevents saving empty documents
+    if (isContentEmpty) return;
+
+    saveDoc({
+      id: docId || nanoid(),
+      title,
+      content,
+      created_at: new Date(),
+      last_updated_at: new Date(),
+      notes: notes || [],
+    });
     setTitle(title);
     handleLastSaved(new Date());
 
@@ -55,10 +71,11 @@ export const Editor = () => {
   }, 750);
 
   /**
-   * #1 – Setup Editor
+   * #2 – Setup Editor
    * Initialise the Tiptap editor, load in the extensions and existing content (empty string if none).
    * Handle the onUpdate event to save the content to local storage.
    */
+
   const editor = useEditor({
     extensions: [
       ...ExtensionList,
@@ -82,9 +99,10 @@ export const Editor = () => {
   });
 
   /**
-   * #2 – Manage Toolbar
+   * #3 – Manage Toolbar
    * Show toolbar if text node selected or 'alwaysShowToolbar' is true.
    */
+
   useEffect(() => {
     if (!editor) return;
 
@@ -95,11 +113,12 @@ export const Editor = () => {
   }, [editor?.state.selection]);
 
   /**
-   * #3 - Handle AI Completion
+   * #4 - Handle AI Completion
    * Using the useCompletion hook to handle the AI completion.
    * Leverage useRef to store each part of the stream.
    * This is triggered from / command list. Matching id means that they talk to each other.
    */
+
   const prev = useRef("");
   const { completion, isLoading } = useCompletion({
     id: "complete",
@@ -124,20 +143,27 @@ export const Editor = () => {
   }, [isLoading, editor, completion]);
 
   /**
-   * #4 - Render Editor
+   * #5 - Render Editor
    * Show the editor content if the editor is ready.
    * Focus cursor at the end of the document.
    */
 
   useEffect(() => {
-    if (!editor || isReady) return;
+    if (!editor) return;
 
-    editor.commands.setContent(content);
+    // If document id exists, use it to load document
+    if (docId) {
+      getDoc(docId).then((doc: any) => {
+        editor.commands.setContent(doc.content);
+        setNotes(doc.notes);
+        setTitle(doc.title);
+      });
+    }
 
     editor.commands.focus("end");
     editor.setEditable(true);
     setIsReady(true);
-  }, [editor, isReady]);
+  }, [docId, editor]);
 
   if (!editor) return null;
 
