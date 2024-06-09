@@ -31,6 +31,7 @@ export const Editor = () => {
     notes,
     setNotes,
     docId,
+    setDocId,
     setTitle,
     handleLastSaved,
     setMarkdown,
@@ -52,11 +53,11 @@ export const Editor = () => {
     const isContentEmpty =
       content.content && content.content[0].content === undefined;
 
-    // Prevents saving empty documents
-    if (isContentEmpty) return;
+    // Prevents saving empty or multiple copies of documents
+    if (isContentEmpty || !docId) return;
 
     saveDoc({
-      id: docId || nanoid(),
+      id: docId,
       title,
       content,
       created_at: new Date(),
@@ -159,13 +160,15 @@ export const Editor = () => {
         setTitle(doc.title);
       });
     } else {
+      // Start a new document
       editor.commands.clearContent();
+      setDocId(nanoid());
     }
 
     editor.commands.focus("end");
     editor.setEditable(true);
     setIsReady(true);
-  }, [docId, editor]);
+  }, [docId, editor, setDocId]);
 
   if (!editor) return null;
 
