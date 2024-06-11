@@ -6,6 +6,8 @@ import { useDocs } from "@/hooks/docs";
 import type { Doc } from "@/utils/types";
 import { DashboardDocItem } from "@/components/dashboard/dash-doc-item";
 import { DocContext } from "@/context/doc";
+import { DashboardNewDoc } from "@/components/dashboard/dash-new-doc";
+import { nanoid } from "ai";
 
 export const DashboardDocs = ({
   handleSetOpen,
@@ -34,7 +36,7 @@ export const DashboardDocs = ({
     setLoading(false);
   }, []);
 
-  const handleOnSelect = (id: string) => {
+  const handleOnSelect = (id: string | null) => {
     setDocId(id);
     handleSetOpen();
   };
@@ -48,10 +50,11 @@ export const DashboardDocs = ({
       new Date(a.last_updated_at).getTime(),
   );
 
-  if(loading) return null;
+  if (loading) return null;
 
   return (
     <div className="grid items-start grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
+      <DashboardNewDoc onSelect={() => handleOnSelect(nanoid())} />
       {sortedDocs.map((doc: Doc) => {
         return (
           <DashboardDocItem

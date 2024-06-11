@@ -8,7 +8,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { useDebouncedCallback } from "use-debounce";
-import { nanoid } from "ai";
 import { useCompletion } from "ai/react";
 import { useDocs } from "@/hooks/docs";
 import { DocContext } from "@/context/doc";
@@ -30,8 +29,7 @@ export const Editor = () => {
   const {
     notes,
     setNotes,
-    docId,
-    setDocId,
+    docId,    
     setTitle,
     handleLastSaved,
     setMarkdown,
@@ -150,25 +148,25 @@ export const Editor = () => {
    */
 
   useEffect(() => {
-    if (!editor) return;
+    if (!editor || !docId) return;
 
-    // If document id exists, use it to load document
-    if (docId) {
-      getDoc(docId).then((doc: any) => {
+    getDoc(docId).then((doc: any) => {
+      // If document exits, set the content etc
+      // If not, clear the runway
+
+      if (doc) {
         editor.commands.setContent(doc.content);
         setNotes(doc.notes);
         setTitle(doc.title);
-      });
-    } else {
-      // Start a new document
-      editor.commands.clearContent();
-      setDocId(nanoid());
-    }
+      } else {
+        editor.commands.clearContent();
+      }
+    });
 
     editor.commands.focus("end");
     editor.setEditable(true);
     setIsReady(true);
-  }, [docId, editor, setDocId]);
+  }, [docId, editor]);
 
   if (!editor) return null;
 

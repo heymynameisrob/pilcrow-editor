@@ -4,6 +4,7 @@ import { useLocalStorage } from "@/hooks/local";
 import { idbConfig } from "@/utils/db";
 import { DocContext } from "@/context/doc";
 import { Doc, Note } from "@/utils/types";
+import { nanoid } from "ai";
 
 type UseDocType = {
   saveDoc: (doc: Doc) => Promise<void>;
@@ -62,7 +63,7 @@ export function useDocs(): UseDocType {
   };
 
   const newDocument = () => {
-    setDocId(null);
+    setDocId(nanoid());
     setTitle("Untitled");
     setLastSaved(new Date());
   };

@@ -9,6 +9,7 @@ import { NewDocIcon, SearchIcon } from "@/components/icons";
 import type { PageType } from "@/components/cmdk";
 import { getTimeFromNow } from "@/utils/time";
 import { Doc } from "@/utils/types";
+import { nanoid } from "ai";
 
 export const CommandGroupHome = ({
   docs,
@@ -22,7 +23,7 @@ export const CommandGroupHome = ({
   const { setDocId } = useContext(DocContext);
 
   const handleNewDocument = () => {
-    setDocId(null);
+    setDocId(nanoid());
     handleSetOpen();
   };
 
