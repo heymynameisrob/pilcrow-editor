@@ -55,7 +55,7 @@ export const CommandGroupHome = ({
           >
             <div className="flex items-baseline gap-3">
               <small className="font-medium">{doc.title}</small>
-              <span className="text-neutral-700 dark:text-neutral-400">
+              <span className="text-neutral-300">
                 {getTimeFromNow(doc.last_updated_at)}
               </span>
             </div>

@@ -13,6 +13,7 @@ import { CommandGroupDocs } from "@/components/cmdk/cmd-docs";
 import { CommandGroupHome } from "@/components/cmdk/cmd-home";
 
 import type { Doc } from "@/utils/types";
+import { CommandGroupSettings } from "@/components/cmdk/cmd-settings";
 
 export type PageType = "home" | "docs" | null;
 
@@ -20,9 +21,10 @@ const RECENT_MAX_LIMIT = 5;
 
 export const CommandPallete = () => {
   const ref = useRef<HTMLDivElement | null>(null);
+
   const [isReady, setIsReady] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   const [docs, setDocs] = useState<Array<Doc> | []>([]);
   const [value, setValue] = useState<string>("");
   const [activePage, setActivePage] = useState<PageType>("home");
@@ -126,17 +128,20 @@ export const CommandPallete = () => {
         onKeyDown={onKeyDown}
         onValueChange={(value: string) => setValue(value)}
       />
-      <CommandList>
+      <CommandList className="py-1">
         {loading && <CommandLoading>Fetching documents…</CommandLoading>}
         <CommandEmpty>No results found.</CommandEmpty>
         {activePage === "docs" ? (
           <CommandGroupDocs docs={sortedDocs} handleOpenChange={setOpen} />
         ) : (
-          <CommandGroupHome
-            docs={sortedDocs.slice(0, RECENT_MAX_LIMIT)}
-            handleSetPage={(page: PageType) => handlePageSelect(page)}
-            handleSetOpen={() => setOpen(false)}
-          />
+          <>
+            <CommandGroupHome
+              docs={sortedDocs.slice(0, RECENT_MAX_LIMIT)}
+              handleSetPage={(page: PageType) => handlePageSelect(page)}
+              handleSetOpen={() => setOpen(false)}
+            />
+            <CommandGroupSettings handleSetOpen={() => setOpen(false)} />
+          </>
         )}
       </CommandList>
     </CommandDialog>

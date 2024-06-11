@@ -5,7 +5,7 @@
 :root {
   --theme-color:#fff;
   --color-accent: hsl(206, 100%, 50%);
-  --color-annotation: hsla(206, 100%, 50%, 0.2);
+  --color-annotation: hsla(206, 100%, 50%, 0.2);  
 }
 
 [data-theme="dark"]:root {
