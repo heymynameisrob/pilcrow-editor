@@ -31,8 +31,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-    onClose?: () => void;
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {    
     hideClose?: boolean;
     showOverlay?: boolean;
   }
@@ -42,8 +41,7 @@ const DialogContent = React.forwardRef<
       className,
       children,
       hideClose = false,
-      showOverlay = false,
-      onClose,
+      showOverlay = false,      
       ...props
     },
     ref,
@@ -59,22 +57,10 @@ const DialogContent = React.forwardRef<
         {...props}
       >
         {children}
-        {onClose ? (
+        {!hideClose && (
           <DialogPrimitive.Close
             className={cn(
-              "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-transparent transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-ui-mid data-[state=open]:text-muted",
-              hideClose && "hidden pointer-events-none",
-            )}
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        ) : (
-          <DialogPrimitive.Close
-            className={cn(
-              "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-transparent transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-ui-mid data-[state=open]:text-muted",
-              hideClose && "hidden pointer-events-none",
+              "absolute right-4 top-6 rounded-sm opacity-70 ring-offset-transparent transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-ui-mid data-[state=open]:text-muted dark:top-7",
             )}
           >
             <X className="h-4 w-4" />
@@ -92,10 +78,7 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
-      className,
-    )}
+    className={cn("flex flex-col space-y-1.5 text-left", className)}
     {...props}
   />
 );

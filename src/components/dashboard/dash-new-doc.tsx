@@ -1,9 +1,14 @@
 "use client";
 
+import { MouseEventHandler } from "react";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { PlusIcon } from "@radix-ui/react-icons";
 
-export const DashboardNewDoc = ({ onSelect }: { onSelect: any }) => {
+export const DashboardNewDoc = ({
+  onSelect,
+}: {
+  onSelect: MouseEventHandler<HTMLButtonElement>;
+}) => {
   return (
     <button
       onClick={onSelect}

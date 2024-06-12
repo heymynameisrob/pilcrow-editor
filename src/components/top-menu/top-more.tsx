@@ -10,7 +10,7 @@ import { useContext } from "react";
 import { toast } from "sonner";
 import { generateText } from "@tiptap/core";
 import { DocContext } from "@/context/doc";
-import { useTheme } from "next-themes";
+import { useMediaQuery } from "@/hooks/media-query";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuGroup
 } from "@/components/ui/dropdown-menu";
 import {
   Drawer,
@@ -26,23 +27,18 @@ import {
   DrawerMenuGroup,
   DrawerMenuItem,
   DrawerTrigger,
-} from "@/components/ui/drawer";
+  } from "@/components/ui/drawer";
 import { Toggle } from "@/components/ui/toggle";
 import extensions from "@/components/editor/extensions";
 import {
-  DocIcon,
-  MoonIcon,
-  MoreIcon,
-  SunIcon,
+  DocIcon,  
+  MoreIcon,  
   TrashIcon,
 } from "@/components/icons";
-import { useMediaQuery } from "@/hooks/media-query";
-import { DropdownMenuGroup } from "@radix-ui/react-dropdown-menu";
 import { getTimeFromNow } from "@/utils/time";
 
 export const TopMenuMore = () => {
   const { markdown, title, lastSaved } = useContext(DocContext);
-  const { theme, setTheme } = useTheme();
   const isLargeScreen = useMediaQuery("(min-width: 768px)");
 
   const handleClearStorage = () => {
@@ -85,7 +81,7 @@ export const TopMenuMore = () => {
             <DropdownMenuLabel className="pb-0">
               {title || "Untitled"}
             </DropdownMenuLabel>
-            <DropdownMenuLabel className="py-0 text-xs font-normal text-neutral-700 dark:text-neutral-300">
+            <DropdownMenuLabel className="py-0 text-xs font-normal text-neutral-400">
               {getTimeFromNow(lastSaved)}
             </DropdownMenuLabel>
           </DropdownMenuGroup>
@@ -103,13 +99,6 @@ export const TopMenuMore = () => {
           <DropdownMenuItem className="gap-2" onSelect={handleCopyAsText}>
             <DocIcon />
             <>Copy as Text</>
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="gap-2"
-            onSelect={() => setTheme(theme === "light" ? "dark" : "light")}
-          >
-            {theme === "light" ? <MoonIcon /> : <SunIcon />}
-            {theme === "light" ? <>Dark mode</> : <>Light mode</>}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="gap-2" onSelect={handleClearStorage}>
@@ -164,20 +153,6 @@ export const TopMenuMore = () => {
           >
             <DocIcon />
             <>Copy as Text</>
-          </DrawerMenuItem>
-          <DrawerMenuItem
-            className="gap-2"
-            onClick={(e: any) => {
-              e.preventDefault();
-              if (theme === "light") {
-                setTheme("dark");
-              } else {
-                setTheme("light");
-              }
-            }}
-          >
-            {theme === "light" ? <MoonIcon /> : <SunIcon />}
-            {theme === "light" ? <>Dark mode</> : <>Light mode</>}
           </DrawerMenuItem>
           <DropdownMenuSeparator />
           <DrawerMenuItem

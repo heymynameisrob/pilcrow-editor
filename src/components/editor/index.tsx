@@ -29,7 +29,7 @@ export const Editor = () => {
   const {
     notes,
     setNotes,
-    docId,    
+    docId,
     setTitle,
     handleLastSaved,
     setMarkdown,

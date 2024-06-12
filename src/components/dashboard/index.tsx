@@ -9,8 +9,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Toggle } from "@/components/ui/toggle";
-import { DashboardIcon } from "@radix-ui/react-icons";
 import { DashboardDocs } from "@/components/dashboard/dash-docs";
+import { DashboardIcon } from "@radix-ui/react-icons";
 
 export const Dashboard = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -36,7 +36,7 @@ export const Dashboard = () => {
       </DialogTrigger>
       <DialogContent
         showOverlay={false}
-        className="inset-0 origin-center translate-y-0 translate-x-0 max-w-none border-none w-screen h-screen bg-white/50 backdrop-blur-md dark:bg-black/50"
+        className="inset-0 origin-center translate-y-0 translate-x-0 max-w-none border-none w-screen h-screen overflow-y-scroll bg-white/70 backdrop-blur-md dark:bg-black/50"
       >
         <div className="flex flex-col gap-4">
           <DialogHeader>Documents</DialogHeader>

@@ -1,13 +1,14 @@
 "use client";
 
 import { useContext, useEffect, useState } from "react";
+import { nanoid } from "ai";
 import { useDocs } from "@/hooks/docs";
+import { DocContext } from "@/context/doc";
+
+import { DashboardDocItem } from "@/components/dashboard/dash-doc-item";
+import { DashboardNewDoc } from "@/components/dashboard/dash-new-doc";
 
 import type { Doc } from "@/utils/types";
-import { DashboardDocItem } from "@/components/dashboard/dash-doc-item";
-import { DocContext } from "@/context/doc";
-import { DashboardNewDoc } from "@/components/dashboard/dash-new-doc";
-import { nanoid } from "ai";
 
 export const DashboardDocs = ({
   handleSetOpen,
