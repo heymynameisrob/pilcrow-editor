@@ -174,7 +174,10 @@ export const Editor = () => {
     <>
       <Toolbar editor={editor} isVisible={isToolbarVisible} />
       <Notes editor={editor} />
-      <EditorContent editor={editor} className="h-full max-w-2xl mx-auto" />
+      <EditorContent
+        editor={editor}
+        className="min-h-screen max-w-2xl mx-auto pb-24"
+      />
     </>
   );
 };

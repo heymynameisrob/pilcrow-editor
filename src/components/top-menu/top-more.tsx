@@ -18,7 +18,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuGroup
+  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import {
   Drawer,
@@ -27,14 +27,10 @@ import {
   DrawerMenuGroup,
   DrawerMenuItem,
   DrawerTrigger,
-  } from "@/components/ui/drawer";
+} from "@/components/ui/drawer";
 import { Toggle } from "@/components/ui/toggle";
 import extensions from "@/components/editor/extensions";
-import {
-  DocIcon,  
-  MoreIcon,  
-  TrashIcon,
-} from "@/components/icons";
+import { DocIcon, MoreIcon, TrashIcon } from "@/components/icons";
 import { getTimeFromNow } from "@/utils/time";
 
 export const TopMenuMore = () => {

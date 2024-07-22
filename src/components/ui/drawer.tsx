@@ -115,7 +115,7 @@ const DrawerMenuGroup = ({
 }) => (
   <div
     className={cn(
-      "flex select-none flex-col gap-px py-4 outline-none",
+      "flex select-none flex-col gap-2 px-4 py-2 outline-none",
       className,
     )}
   >
@@ -127,7 +127,7 @@ const DrawerMenuItem = (props: any) => (
   <button
     {...props}
     className={cn(
-      "group flex h-[40px] w-full items-center gap-3 rounded-md px-4 text-sm text-neutral-900 dark:text-white",
+      "group flex h-[44px] w-full items-center gap-3 rounded-md px-4 text-[15px] bg-black/5 text-neutral-900 dark:text-white dark:bg-white/5",
       props.className,
     )}
   >
