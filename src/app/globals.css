@@ -41,6 +41,13 @@ span:not(.prose span, .EmojiPickerReact span, .home span) {
   @apply text-xs leading-5
 }
 
+[vaul-drawer] {
+  transition: transform 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+ 
+[vaul-overlay] {
+  transition: opacity 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
 
 /* Tip Tap CSS */
 .tiptap .is-editor-empty:first-child::before {

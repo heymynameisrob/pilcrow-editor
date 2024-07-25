@@ -6,56 +6,114 @@
  * Better UX but look to improve the makeup as we're duplicating a lot of code here
  */
 
-import { useContext } from "react";
-import { toast } from "sonner";
-import { generateText } from "@tiptap/core";
-import { DocContext } from "@/context/doc";
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import useMeasure from "react-use-measure";
 import { useMediaQuery } from "@/hooks/media-query";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import {
   Drawer,
   DrawerContent,
-  DrawerDescription,
-  DrawerMenuGroup,
-  DrawerMenuItem,
+  DrawerSeparator,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Toggle } from "@/components/ui/toggle";
-import extensions from "@/components/editor/extensions";
-import { DocIcon, MoreIcon, TrashIcon } from "@/components/icons";
-import { getTimeFromNow } from "@/utils/time";
+import { MoreIcon } from "@/components/icons";
+import { MenuTextOptions } from "@/components/top-menu/menu/menu-text";
+import { MenuViewOptions } from "@/components/top-menu/menu/menu-view";
+import { MenuDestructiveOptions } from "@/components/top-menu/menu/menu-destructive";
+import { MenuTitle } from "@/components/top-menu/menu/menu-title";
+import { Button } from "@/components/ui/button";
+
+import { AlertCircleIcon, CheckCircle } from "lucide-react";
 
 export const TopMenuMore = () => {
-  const { markdown, title, lastSaved } = useContext(DocContext);
+  const [view, setView] = useState("menu");
   const isLargeScreen = useMediaQuery("(min-width: 768px)");
+  const [elementRef, bounds] = useMeasure();
 
-  const handleClearStorage = () => {
-    confirm("Are you sure?") && localStorage.clear();
-    window.location.reload();
-  };
-
-  const handleCopyAsMarkdown = () => {
-    navigator.clipboard.writeText(markdown);
-    toast("Copied as Markdown");
-  };
-
-  const handleCopyAsText = () => {
-    const json = localStorage.getItem("content");
-
-    if (!json) return;
-
-    const text = generateText(JSON.parse(json), [...extensions]);
-    navigator.clipboard.writeText(text);
-    toast("Copied as text");
-  };
+  const content = useMemo(() => {
+    switch (view) {
+      case "menu":
+        return (
+          <>
+            <MenuTitle isLargeScreen={isLargeScreen} />
+            <MenuViewOptions isLargeScreen={isLargeScreen} />
+            {isLargeScreen ? <DropdownMenuSeparator /> : <DrawerSeparator />}
+            <MenuTextOptions
+              setView={() => setView("copied")}
+              isLargeScreen={isLargeScreen}
+            />
+            {isLargeScreen ? <DropdownMenuSeparator /> : <DrawerSeparator />}
+            <MenuDestructiveOptions
+              isLargeScreen={isLargeScreen}
+              setView={() => setView("delete")}
+            />
+          </>
+        );
+      case "delete":
+        return (
+          <div>
+            <div className="px-2">
+              <header className="flex flex-col justify-center items-center gap-4 pb-4">
+                <div className="w-10 h-10 rounded-full grid place-items-center bg-red-50 dark:bg-white/10">
+                  <AlertCircleIcon className="text-red-600" />
+                </div>
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <h2 className="text-base font-medium text-primary">
+                    Are you sure?
+                  </h2>
+                  <p className="text-sm text-neutral-700 text-center dark:text-neutral-400">
+                    If you remove it, you wont be able to get it back so think
+                    carefully bozo.
+                  </p>
+                </div>
+              </header>
+              <div className="py-2 flex flex-col gap-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  className="w-full rounded-xl"
+                  onClick={() => setView("menu")}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  className="w-full rounded-xl bg-red-500 text-white dark:bg-red-500 dark:text-white"
+                  size="sm"
+                  onClick={() => setView("menu")}
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+      case "copied":
+        return (
+          <div>
+            <div className="px-2">
+              <header className="flex flex-col justify-center items-center gap-4 pb-4 h-[240px]">
+                <div className="w-10 h-10 rounded-full grid place-items-center bg-green-50">
+                  <CheckCircle
+                    className="text-green-600"
+                    onClick={() => setView("menu")}
+                  />
+                </div>
+                <div className="flex flex-col items-center justify-center gap-2">
+                  <h2 className="text-base font-medium text-primary">Copied</h2>
+                </div>
+              </header>
+            </div>
+          </div>
+        );
+    }
+  }, [view, isLargeScreen]);
 
   if (isLargeScreen) {
     return (
@@ -72,42 +130,13 @@ export const TopMenuMore = () => {
             <MoreIcon />
           </Toggle>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuGroup className="flex flex-col gap-1 pb-2">
-            <DropdownMenuLabel className="pb-0">
-              {title || "Untitled"}
-            </DropdownMenuLabel>
-            <DropdownMenuLabel className="py-0 text-xs font-normal text-neutral-400">
-              {getTimeFromNow(lastSaved)}
-            </DropdownMenuLabel>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="gap-2"
-            onSelect={(e) => {
-              e.preventDefault();
-              handleCopyAsMarkdown();
-            }}
-          >
-            <DocIcon />
-            <>Copy as Markdown</>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="gap-2" onSelect={handleCopyAsText}>
-            <DocIcon />
-            <>Copy as Text</>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem className="gap-2" onSelect={handleClearStorage}>
-            <TrashIcon />
-            <>Clear storage</>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
+        <DropdownMenuContent align="end">{content}</DropdownMenuContent>
       </DropdownMenu>
     );
   }
 
   return (
-    <Drawer>
+    <Drawer onOpenChange={() => setView("menu")}>
       <DrawerTrigger asChild>
         <Toggle
           size="sm"
@@ -121,47 +150,24 @@ export const TopMenuMore = () => {
         </Toggle>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerMenuGroup className="flex flex-col gap-1 px-4">
-          <DrawerDescription className="pb-0 font-medium text-neutral-900 dark:text-white">
-            {title || "Untitled"}
-          </DrawerDescription>
-          <DrawerDescription className="py-0 text-xs font-normal text-neutral-700 dark:text-neutral-300">
-            {getTimeFromNow(lastSaved)}
-          </DrawerDescription>
-        </DrawerMenuGroup>
-        <DrawerMenuGroup>
-          <DrawerMenuItem
-            className="gap-2"
-            onClick={(e: any) => {
-              e.preventDefault();
-              handleCopyAsMarkdown();
-            }}
-          >
-            <DocIcon />
-            <>Copy as Markdown</>
-          </DrawerMenuItem>
-          <DrawerMenuItem
-            className="gap-2"
-            onClick={(e: any) => {
-              e.preventDefault();
-              handleCopyAsText();
-            }}
-          >
-            <DocIcon />
-            <>Copy as Text</>
-          </DrawerMenuItem>
-          <DropdownMenuSeparator />
-          <DrawerMenuItem
-            className="gap-2"
-            onClick={(e: any) => {
-              e.preventDefault();
-              handleClearStorage();
-            }}
-          >
-            <TrashIcon />
-            <>Clear storage</>
-          </DrawerMenuItem>
-        </DrawerMenuGroup>
+        <motion.div animate={{ height: bounds.height }}>
+          <div ref={elementRef} className="antialiased">
+            <AnimatePresence initial={false} mode="popLayout" custom={view}>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                key={view}
+                className="flex flex-col gap-2"
+                transition={{
+                  duration: 0.2,
+                }}
+              >
+                {content}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </motion.div>
       </DrawerContent>
     </Drawer>
   );
