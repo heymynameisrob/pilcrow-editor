@@ -40,12 +40,12 @@ const DrawerContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DrawerPortal>
-    <DrawerOverlay />
+    <DrawerOverlay className="h-screen" />
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-2xl border border-black/10 bg-neutral-100 dark:border-white/10 dark:bg-neutral-900",
-        isIOS() && "pb-4", // Clears home indicator
+        "fixed inset-x-2 bottom-2 z-50 mt-24 flex h-auto flex-col gap-4 rounded-[20px] overflow-hidden bg-white dark:border-white/10 dark:bg-neutral-900",
+        isIOS() && "mb-4", // Clears home indicator
         className,
       )}
       {...props}
@@ -86,7 +86,7 @@ const DrawerTitle = React.forwardRef<
   <DrawerPrimitive.Title
     ref={ref}
     className={cn(
-      "text-lg font-semibold leading-none tracking-tight",
+      "!text-lg !leading-none font-medium tracking-tight",
       className,
     )}
     {...props}
@@ -100,7 +100,10 @@ const DrawerDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
-    className={cn("text-neutral-500 dark:text-neutral-400", className)}
+    className={cn(
+      "!text-base text-neutral-500 dark:text-neutral-400",
+      className,
+    )}
     {...props}
   />
 ));
@@ -115,7 +118,7 @@ const DrawerMenuGroup = ({
 }) => (
   <div
     className={cn(
-      "flex select-none flex-col gap-2 px-4 py-2 outline-none",
+      "flex select-none flex-col gap-2 px-2 outline-none",
       className,
     )}
   >
@@ -127,7 +130,7 @@ const DrawerMenuItem = (props: any) => (
   <button
     {...props}
     className={cn(
-      "group flex h-[44px] w-full items-center gap-3 rounded-md px-4 text-[15px] bg-black/5 text-neutral-900 dark:text-white dark:bg-white/5",
+      "group flex h-[44px] w-full items-center gap-3 rounded-xl bg-neutral-50 px-4 text-base text-neutral-900 dark:text-white dark:bg-white/5 transition-transform active:scale-95",
       props.className,
     )}
   >
@@ -135,6 +138,18 @@ const DrawerMenuItem = (props: any) => (
   </button>
 );
 
+const DrawerSeparator = (props: any) => (
+  <div className="px-4">
+    <div
+      className={cn("h-px bg-transparent dark:bg-black", props.className)}
+      {...props}
+    />
+    <div
+      className={cn("h-px bg-black/5 dark:bg-white/5", props.className)}
+      {...props}
+    />
+  </div>
+);
 export {
   Drawer,
   DrawerPortal,
@@ -148,4 +163,5 @@ export {
   DrawerDescription,
   DrawerMenuGroup,
   DrawerMenuItem,
+  DrawerSeparator,
 };
