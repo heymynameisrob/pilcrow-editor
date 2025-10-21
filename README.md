@@ -7,7 +7,7 @@ This started as a fully-fleged product that never went anywhere. However, I lear
 - Block-based editor experience
 - Slash commands
 - Markdown shortcuts
-- Backlinking
+- TODO: Backlinking
 
 ## Commands
 
