@@ -1,50 +1,28 @@
-# Pilcrow Editor
+# pilcrow.xyz
 
-This is an exact copy of the editor experience in [Pilcrow](https://pilcrow.xyz). A few modifications have been made so that it works right out the box. However, most of the functionality is there. Including:
+Web-based notepad, similar to Apple Notes. 
 
-- Full node-based text editing
+This started as a fully-fleged product that never went anywhere. However, I learnt a lot about building an interactive text editor. At the same time, having a web based version of a simple place to take notes was pretty useful - so I kept it.
+
+- Block-based editor experience
 - Slash commands
-- AI Complete (OpenAI key needed)
-- AI Assistance
-- Annotations
-- Snippets
+- Markdown shortcuts
+- Backlinking
 
-## How it works
-More here
+## Commands
 
+All commands are run from the root of the project, from a terminal:
 
-## Run it locally
-Clone the repo and install everything. 
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `pnpm install`             | Installs dependencies                            |
+| `pnpm run dev`             | Starts local dev server at `localhost:4321`      |
+| `pnpm run build`           | Build your production         |
 
-To use everything, you'll need:
-- Tiptap Pro
-- OpenAI key
-
-Make sure you use the correct node version with `nvm`
-
-```bash
-nvm use
-```
-
-then run the dev server
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Tech used
-
-- Nextjs
-- Tiptap
-- Shadcn
+- Next Pages Router
+- TipTap
 - Radix UI
 - Tailwind
-etc
+- SQL Lite for storage
