@@ -1,183 +1,110 @@
-"use client";
-
-/**
- * Tiptap Editor - Editor component using Tiptap.
- * Handles the editor state, toolbar, and AI completion.
- */
-
-import { useContext, useEffect, useRef, useState } from "react";
-import { EditorContent, useEditor } from "@tiptap/react";
-import { useDebouncedCallback } from "use-debounce";
-import { useCompletion } from "ai/react";
-import { useDocs } from "@/hooks/docs";
-import { DocContext } from "@/context/doc";
-import { Toolbar } from "@/components/editor/toolbar";
+import * as React from "react";
+import { EditorProvider, useEditor } from "@tiptap/react";
+import { EditorToolbar } from "@/components/editor/toolbar";
 import { defaultEditorProps } from "@/components/editor/props";
-import { Notes } from "@/components/notes";
-import { getTitleFromJson } from "@/utils/editor";
 
 // Extensions
 import ExtensionList from "@/components/editor/extensions";
-import Note from "@/components/editor/extensions/note";
 
-import type { JSONContent } from "@tiptap/react";
+import type { Editor, Extension, JSONContent } from "@tiptap/react";
+import Placeholder from "@tiptap/extension-placeholder";
+import { cn } from "@/utils";
 
-export const Editor = () => {
-  const [isReady, setIsReady] = useState(false);
-  const [isToolbarVisible, setIsToolbarVisible] = useState(false);
+type EditorProps = {
+  readOnly: boolean;
+  onContentChange: (editor: Editor) => void;
+  content?: JSONContent;
+  onKeyDown?: (e: KeyboardEvent) => void;
+  onBlur?: () => void;
+  onFocus?: () => void;
+  onMount?: (props: Editor) => void;
+  placeholder?: string;
+};
 
-  const {
-    notes,
-    setNotes,
-    docId,
-    setTitle,
-    handleLastSaved,
-    setMarkdown,
-    setcurrentNoteId,
-  } = useContext(DocContext);
+export function TipTapEditor({
+  content,
+  readOnly = false,
+  onContentChange,
+  onKeyDown,
+  onBlur,
+  onFocus,
+  onMount,
+  placeholder,
+}: EditorProps) {
+  const [isReady, setIsReady] = React.useState(false);
 
-  const { saveDoc, getDoc } = useDocs();
+  const extensions = React.useMemo(() => {
+    let extensions = [...ExtensionList];
+    if (placeholder) {
+      extensions = extensions.concat([
+        Placeholder.configure({
+          placeholder:
+            typeof placeholder === "string"
+              ? ({ editor, node, pos }) => {
+                  // Don't show placeholder in table cells
+                  // Resolve the parent node from the position
+                  const $pos = editor.state.doc.resolve(pos);
+                  const parent = $pos.parent;
 
-  /**
-   * #1 - Save the content to local storage
-   * Using debounce to limit the number of writes to local storage.
-   * Not a huge deal, but it's a good practice to limit writes and we do this on Pilcrow when writing to the database.
-   * This logic can easily be modified to write to a database or API.
-   */
+                  if (
+                    parent?.type.name === "tableCell" ||
+                    parent?.type.name === "tableHeader"
+                  ) {
+                    return "";
+                  }
+                  return placeholder;
+                }
+              : placeholder,
+          includeChildren: true,
+        }),
+      ]);
+    }
+    return extensions;
+  }, [placeholder]);
 
-  const handleOnSave = useDebouncedCallback(async (editor: any) => {
-    const content = editor.getJSON() as JSONContent;
-    const title = getTitleFromJson(content);
-    const isContentEmpty =
-      content.content && content.content[0].content === undefined;
-
-    // Prevents saving empty or multiple copies of documents
-    if (isContentEmpty || !docId) return;
-
-    saveDoc({
-      id: docId,
-      title,
-      content,
-      created_at: new Date(),
-      last_updated_at: new Date(),
-      notes: notes || [],
-    });
-    setTitle(title);
-    handleLastSaved(new Date());
-
-    const markdown = editor.storage.markdown.getMarkdown();
-    setMarkdown(markdown);
-  }, 750);
-
-  /**
-   * #2 – Setup Editor
-   * Initialise the Tiptap editor, load in the extensions and existing content (empty string if none).
-   * Handle the onUpdate event to save the content to local storage.
-   */
-
-  const editor = useEditor({
-    extensions: [
-      ...ExtensionList,
-      Note.configure({
-        onNoteActivated: (id: string | null) => {
-          if (!id) return;
-
-          setcurrentNoteId(id);
-        },
-      }),
-    ],
-    onUpdate: ({ editor }) => {
-      // Prevents infinite loop if content is not ready.
-      if (!isReady || !editor) return;
-
-      handleOnSave(editor);
-    },
-    editorProps: {
-      ...defaultEditorProps,
-    },
-  });
-
-  /**
-   * #3 – Manage Toolbar
-   * Show toolbar if text node selected or 'alwaysShowToolbar' is true.
-   */
-
-  useEffect(() => {
-    if (!editor) return;
-
-    const { from, to } = editor.state.selection;
-    const text = editor.state.doc.textBetween(from, to);
-
-    setIsToolbarVisible(text.length > 0);
-  }, [editor?.state.selection]);
-
-  /**
-   * #4 - Handle AI Completion
-   * Using the useCompletion hook to handle the AI completion.
-   * Leverage useRef to store each part of the stream.
-   * This is triggered from / command list. Matching id means that they talk to each other.
-   */
-
-  const prev = useRef("");
-  const { completion, isLoading } = useCompletion({
-    id: "complete",
-    api: "/api/ai/complete",
-    onFinish: (completion: any) => {
-      editor?.commands.setTextSelection({
-        from: editor.state.selection.from - completion.length,
-        to: editor.state.selection.from,
-      });
-    },
-    onError: (error: Error) => {
-      console.error("Something went wrong.", error.message);
-      // TODO: Add VA tracking
-    },
-  });
-
-  // Insert chunks of the generated text
-  useEffect(() => {
-    const diff = completion.slice(prev.current.length);
-    prev.current = completion;
-    editor?.commands.insertContent(diff);
-  }, [isLoading, editor, completion]);
-
-  /**
-   * #5 - Render Editor
-   * Show the editor content if the editor is ready.
-   * Focus cursor at the end of the document.
-   */
-
-  useEffect(() => {
-    if (!editor || !docId) return;
-
-    getDoc(docId).then((doc: any) => {
-      // If document exits, set the content etc
-      // If not, clear the runway
-
-      if (doc) {
-        editor.commands.setContent(doc.content);
-        setNotes(doc.notes);
-        setTitle(doc.title);
-      } else {
-        editor.commands.clearContent();
-      }
-    });
-
-    editor.commands.focus("end");
-    editor.setEditable(true);
+  React.useEffect(() => {
     setIsReady(true);
-  }, [docId, editor]);
+  }, []);
 
-  if (!editor) return null;
+  if (!isReady) return null;
 
   return (
-    <>
-      <Toolbar editor={editor} isVisible={isToolbarVisible} />
-      <Notes editor={editor} />
-      <EditorContent
-        editor={editor}
-        className="min-h-screen max-w-2xl mx-auto pb-24"
-      />
-    </>
+    <EditorProvider
+      content={content}
+      extensions={ExtensionList}
+      onCreate={(props) => onMount?.(props.editor)}
+      immediatelyRender={true}
+      autofocus="start"
+      onUpdate={({ editor }) => {
+        if (!isReady || !editor) return;
+
+        onContentChange(editor);
+      }}
+      editorContainerProps={{
+        className: cn(
+          "flex-1 max-w-none w-full outline-none focus:outline-none",
+          "focus:outline-none",
+          "prose prose-sm md:prose-base dark:prose-invert",
+          "prose-code:before:hidden prose-code:after:hidden",
+          "prose-h1:font-semibold prose-h2:font-medium prose-h3:font-medium prose-h4:font-medium prose-h5:font-regular prose-h6:font-regular",
+          // Dynamic Metrics - https://d.rsms.me/inter-website/v3/dynmetrics/
+          "prose-h1:tracking-[-0.0021em] prose-h2:tracking-[-0.0018em] prose-h3:tracking-[-0.0015em] prose-h4:tracking-[-0.0012em] prose-p:tracking-[-0.0011em]",
+          "prose-h2:mb-[0.666em] prose-h3:mb-[0.666em]",
+        ),
+      }}
+      editorProps={{
+        handleDOMEvents: {
+          keydown: (_view, event) => {
+            if (["ArrowUp", "ArrowDown", "Enter"].includes(event.key)) {
+              // prevent default event listeners from firing when slash command is active
+              const slashCommand = document.querySelector("#slash-command");
+              if (slashCommand) return true;
+            }
+          },
+        },
+      }}
+    >
+      <EditorToolbar />
+    </EditorProvider>
   );
-};
+}

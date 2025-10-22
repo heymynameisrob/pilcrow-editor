@@ -1,4 +1,4 @@
-import { Editor } from "@tiptap/core";
+import { Editor, JSONContent } from "@tiptap/core";
 import he from "he";
 
 export function getAllText(editor: Editor) {
@@ -102,3 +102,12 @@ export function extractTextFromJSON(json: any) {
 
   return textString;
 }
+
+export const emptyTipTap: JSONContent = {
+  type: "doc",
+  content: [
+    {
+      type: "paragraph",
+    },
+  ],
+};

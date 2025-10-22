@@ -148,3 +148,26 @@ export function prepareStringForApi(text: string) {
 export function stripParamId(id: string) {
   return id.split("-")[id.split("-").length - 1];
 }
+
+/**
+ * Creates a URL-friendly slug-id format for documents
+ * @param title - The document title
+ * @param id - The document ID (number)
+ * @returns A slug-id string like "my-document-title-123"
+ */
+export function createDocSlugId(title: string, id: number) {
+  const slug = createSlug(title || "untitled");
+  // Ensure slug doesn't end with a dash before adding ID
+  const cleanSlug = slug.replace(/-+$/, "");
+  return cleanSlug ? `${cleanSlug}-${id}` : String(id);
+}
+
+/**
+ * Extracts the document ID from a slug-id format
+ * @param slugId - The slug-id string like "my-document-title-123"
+ * @returns The document ID (number, extracted from the last part after the final dash)
+ */
+export function parseDocSlugId(slugId: string): number {
+  const idString = stripParamId(slugId);
+  return parseInt(idString, 10);
+}

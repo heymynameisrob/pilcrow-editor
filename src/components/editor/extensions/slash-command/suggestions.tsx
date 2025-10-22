@@ -1,16 +1,16 @@
 import { ReactNode } from "react";
 import {
-  CheckBoxIcon,
   CodeIcon,
   Heading2Icon,
   Heading3Icon,
   InfoIcon,
   ListIcon,
-  MagicWandIcon,
-  MixIcon,
+  SparkleIcon,
   QuoteIcon,
   TextIcon,
-} from "@/components/icons";
+  ShapesIcon,
+  CheckCircleIcon,
+} from "lucide-react";
 import { getEmbedUrl } from "@/utils/editor";
 
 export type CommandItemProps = {
@@ -19,29 +19,18 @@ export type CommandItemProps = {
   description: string;
   category: string;
   icon: ReactNode;
+  shortcut?: string;
 };
+
+export type CommandSeparatorProps = {
+  id: string;
+  type: "separator";
+};
+
+export type SuggestionItem = CommandItemProps | CommandSeparatorProps;
 
 export const getSuggestionItems = ({ query }: { query: string }) => {
   return [
-    {
-      id: "ai-complete",
-      title: "Continue writing",
-      category: "AI",
-      description: "Use AI to expand your thoughts",
-      searchTerms: ["gpt", "ai"],
-      icon: <MagicWandIcon />,
-    },
-    {
-      id: "strapline",
-      title: "Strapline",
-      category: "Base",
-      description: "A subtitle for your document",
-      searchTerms: ["base", "subtitle", "strapline"],
-      icon: <TextIcon />,
-      command: ({ editor, range }: any) => {
-        editor.chain().focus().deleteRange(range).setStrapline().run();
-      },
-    },
     {
       id: "heading2",
       title: "Heading 2",
@@ -80,7 +69,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       category: "Base",
       description: "Make text standout",
       searchTerms: ["base", "panel", "info"],
-      icon: <InfoIcon />,
+      icon: <InfoIcon className="size-4 opacity-70" />,
       command: ({ editor, range }: any) => {
         editor.chain().focus().deleteRange(range).setCallout().run();
       },
@@ -91,7 +80,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       category: "Base",
       description: "Create a simple bullet list",
       searchTerms: ["Base", "unordered", "point"],
-      icon: <ListIcon />,
+      icon: <ListIcon className="size-4 opacity-70" />,
       command: ({ editor, range }: any) => {
         editor.chain().focus().deleteRange(range).toggleBulletList().run();
       },
@@ -102,7 +91,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       category: "Base",
       description: "Capture a quote",
       searchTerms: ["blockquote"],
-      icon: <QuoteIcon />,
+      icon: <QuoteIcon className="size-4 opacity-70" />,
       command: ({ editor, range }: any) =>
         editor
           .chain()
@@ -118,7 +107,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       category: "Base",
       description: "Create a code snippet",
       searchTerms: ["base", "code", "codeblock"],
-      icon: <CodeIcon />,
+      icon: <CodeIcon className="size-4 opacity-70" />,
       command: ({ editor, range }: any) =>
         editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
     },
@@ -128,35 +117,10 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
       category: "Base",
       description: "Track tasks and to-dos",
       searchTerms: ["todo", "task", "list"],
-      icon: <CheckBoxIcon />,
+      icon: <CheckCircleIcon className="size-4 opacity-70" />,
       command: ({ editor, range }: any) =>
         editor.chain().focus().deleteRange(range).toggleTaskList().run(),
     },
-    // {
-    //   id: "image",
-    //   title: "Image",
-    //   category: "Media",
-    //   description: "Upload an image",
-    //   searchTerms: ["media", "image", "photo", "picture", "media"],
-    //   icon: <ImageIcon />,
-    //   command: ({ editor, range }: any) => {
-    //     editor.chain().focus().deleteRange(range).run();
-    //     editor.commands.insertContent("<loading-component />");
-    //     // upload image
-    //     const input = document.createElement("input");
-    //     input.type = "file";
-    //     input.accept = "image/*";
-    //     input.onchange = async () => {
-    //       if (input.files?.length) {
-    //         const file = input.files[0];
-    //         uploadEditorImage(file).then((url: string) => {
-    //           editor.chain().focus().setFigure({ src: url, caption: "" }).run();
-    //         });
-    //       }
-    //     };
-    //     input.click();
-    //   },
-    // },
     {
       id: "embed",
       title: "Embed",
@@ -171,7 +135,7 @@ export const getSuggestionItems = ({ query }: { query: string }) => {
         "loom",
         "youtube",
       ],
-      icon: <MixIcon />,
+      icon: <ShapesIcon className="size-4 opacity-70" />,
       command: ({ editor, range }: any) => {
         editor.chain().focus().deleteRange(range).run();
 

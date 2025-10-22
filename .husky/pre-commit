@@ -1,1 +1,1 @@
-rm -rf .next && pnpm pre-commit
+npm run tsc

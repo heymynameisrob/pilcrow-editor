@@ -9,8 +9,8 @@ import Code from "@tiptap/extension-code";
 // import CustomKeyMap from "@/components/tiptap/extensions/custom-keys";
 import Document from "@tiptap/extension-document";
 import Dropcursor from "@tiptap/extension-dropcursor";
-import Emoji from "@tiptap-pro/extension-emoji";
-import FileHandler from "@tiptap-pro/extension-file-handler";
+import { Emoji } from "@tiptap-pro/extension-emoji";
+import { FileHandler } from "@tiptap-pro/extension-file-handler";
 import HardBreak from "@tiptap/extension-hard-break";
 import Heading from "@tiptap/extension-heading";
 import History from "@tiptap/extension-history";
@@ -27,7 +27,7 @@ import Text from "@tiptap/extension-text";
 import TextStyle from "@tiptap/extension-text-style";
 import TiptapLink from "@tiptap/extension-link";
 import TiptapUnderline from "@tiptap/extension-underline";
-import UniqueID from "@tiptap-pro/extension-unique-id";
+import { UniqueID } from "@tiptap-pro/extension-unique-id";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import { Color } from "@/components/editor/extensions/color";
@@ -47,7 +47,7 @@ import { lowlight } from "lowlight/lib/common";
 
 const extensions = [
   Document.extend({
-    content: "heading block*",
+    content: "block+",
   }),
   TiptapUnderline,
   TextStyle,

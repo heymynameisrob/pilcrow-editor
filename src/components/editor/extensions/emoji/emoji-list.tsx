@@ -65,17 +65,17 @@ export const EmojiList = forwardRef((props: any, ref) => {
   );
 
   return (
-    <div className="relative overflow-hidden z-50 w-32 rounded-xl border border-black/10 bg-neutral-100 text-neutral-900 to-transparent p-1 text-primary shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 [box-shadow: inset_0_0_0_1px_var(--colors-background),_0_12px_20px_rgba(0,0,0,0.1)] dark:border-white/10 dark:bg-neutral-900 dark:text-white">
+    <div className="relative overflow-hidden z-50 w-32 rounded-xl border border-black/10 bg-gray-2 text-gray-10 to-transparent p-1 text-primary shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 [box-shadow: inset_0_0_0_1px_var(--colors-background),_0_12px_20px_rgba(0,0,0,0.1)]">
       {props.items.map((item: any, index: number) => (
         <div
-          className={`flex flex-row items-center gap-1 w-full bg-transparent rounded px-1 py-2 hover:bg-black/10 focus:hover:bg-black/10 dark:hover:bg-white/10 dark:focus:bg-white/10 ${
-            index === selectedIndex ? "bg-black/10 dark:bg-white/10" : ""
+          className={`flex flex-row items-center gap-1 w-full bg-transparent rounded px-1 py-2 hover:bg-black/10 focus:hover:bg-black/10 ${
+            index === selectedIndex ? "bg-black/10" : ""
           }`}
           key={index}
           onClick={() => selectItem(index)}
         >
           <small className="text-xs">{item.emoji}</small>
-          <small className="text-xs text-neutral-900 dark:text-white">
+          <small className="text-xs text-gray-10">
             :{item.name}:
           </small>
         </div>

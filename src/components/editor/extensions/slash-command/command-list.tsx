@@ -1,137 +1,158 @@
-"use client";
-import React, {
+import {
   useState,
   useCallback,
   useEffect,
   useRef,
   useLayoutEffect,
+  forwardRef,
+  useImperativeHandle,
 } from "react";
-import { Editor } from "@tiptap/react";
-import { toast } from "sonner";
-import { useCompletion } from "ai/react";
+import { useCurrentEditor } from "@tiptap/react";
+
 import { updateScrollView } from "@/components/editor/extensions/slash-command";
-import { CommandItemProps } from "@/components/editor/extensions/slash-command/suggestions";
+import {
+  CommandItemProps,
+  SuggestionItem,
+} from "@/components/editor/extensions/slash-command/suggestions";
 import { CommandListItem } from "@/components/editor/extensions/slash-command/command-list-item";
-import { getPreviousText } from "@/utils/editor";
+import {
+  SuggestionList,
+  SuggestionListItem,
+  SuggestionListSeperator,
+} from "@/components/editor/suggestion-list";
 
-export const CommandList = ({
-  items,
-  editor,
-  command,
-}: {
-  items: Array<CommandItemProps>;
-  editor: Editor;
-  command: any;
-  range?: any;
-}) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const commandListContainer = useRef<HTMLDivElement>(null);
-
-  /**
-   * AI Completion for 'Continue Writing'.
-   * Uses 'ai/complete' endpoint.
-   */
-  const { complete, isLoading } = useCompletion({
-    id: "complete",
-    api: "/api/ai/complete",
-    onResponse: (response) => {
-      if (response.status === 429) {
-        toast.error("You have reached your request limit for the day.");
-        return;
-      }
+export const CommandList = forwardRef(
+  (
+    {
+      items,
+      command,
+      range,
+    }: {
+      items: Array<SuggestionItem>;
+      command: any;
+      range?: any;
     },
-    onError: (e) => {
-      toast.error(e.message);
-    },
-  });
+    ref,
+  ) => {
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const { editor } = useCurrentEditor();
 
-  const selectItem = useCallback(
-    (index: number) => {
-      const item = items[index];
+    // Helper to check if an item is a separator
+    const isSeparator = (item: SuggestionItem): boolean => {
+      return "type" in item && item.type === "separator";
+    };
 
-      if (item && item.id === "ai-complete") {
-        if (isLoading) return;
-        const selection = editor?.state.selection;
-        if (!selection) return;
+    // Helper to find next non-separator index
+    const findNextSelectableIndex = (
+      currentIndex: number,
+      direction: 1 | -1,
+    ): number => {
+      let nextIndex = currentIndex;
+      do {
+        nextIndex = (nextIndex + direction + items.length) % items.length;
+      } while (isSeparator(items[nextIndex]) && nextIndex !== currentIndex);
+      return nextIndex;
+    };
 
-        editor?.commands.deleteRange({
-          from: selection.from - 1,
-          to: selection.from,
-        });
-        return complete(
-          getPreviousText(editor, {
-            chars: 500,
-            offset: 1,
-          }),
-        );
-      }
+    const selectItem = useCallback(
+      (index: number) => {
+        const item = items[index];
 
-      return command(item);
-    },
-    [complete, isLoading, command, editor, items],
-  );
+        // Don't select separators
+        if (isSeparator(item)) return;
 
-  /**
-   * Handle keyboard events for navigating the list.
-   * Tippy.js doesn't provide out-of-the-box support for this.
-   */
-  useEffect(() => {
-    const navigationKeys = ["ArrowUp", "ArrowDown", "Enter"];
-    const onKeyDown = (e: KeyboardEvent) => {
-      console.log("Keydown", e.key);
-      if (navigationKeys.includes(e.key)) {
-        e.preventDefault();
-        if (e.key === "ArrowUp") {
-          setSelectedIndex((selectedIndex + items.length - 1) % items.length);
+        if (item && item.id === "ai-complete") {
+          const selection = editor?.state.selection;
+          if (!selection) return;
+
+          editor?.commands.deleteRange({
+            from: selection.from - 1,
+            to: selection.from,
+          });
+        }
+        return command(item);
+      },
+      [command, editor, items],
+    );
+
+    /**
+     * Expose keyboard handler to parent via ref.
+     * This allows the TipTap suggestion plugin to call our handler and prevent editor from processing keys.
+     */
+    const onKeyDown = useCallback(
+      ({ event }: { event: KeyboardEvent }) => {
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          event.stopPropagation();
+          setSelectedIndex(findNextSelectableIndex(selectedIndex, -1));
           return true;
         }
-        if (e.key === "ArrowDown") {
-          setSelectedIndex((selectedIndex + 1) % items.length);
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          event.stopPropagation();
+          setSelectedIndex(findNextSelectableIndex(selectedIndex, 1));
           return true;
         }
-        if (e.key === "Enter") {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          event.stopPropagation();
           selectItem(selectedIndex);
           return true;
         }
+        if (event.key === "Escape") {
+          event.preventDefault();
+          event.stopPropagation();
+          // Returning true tells TipTap suggestion plugin that we handled the event
+          // This will close the suggestion menu without bubbling to parent
+          return true;
+        }
         return false;
-      }
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [items, selectedIndex, setSelectedIndex, selectItem]);
+      },
+      [items, selectedIndex, selectItem],
+    );
 
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [items]);
+    useImperativeHandle(ref, () => ({
+      onKeyDown,
+    }));
 
-  useLayoutEffect(() => {
-    const container = commandListContainer?.current;
+    useEffect(() => {
+      // Set initial selection to first non-separator item
+      const firstSelectableIndex = items.findIndex(
+        (item) => !isSeparator(item),
+      );
+      setSelectedIndex(firstSelectableIndex >= 0 ? firstSelectableIndex : 0);
+    }, [items]);
 
-    const item = container?.children[selectedIndex] as HTMLElement;
+    const commandListContainer = useRef<HTMLDivElement>(null);
 
-    if (item && container) updateScrollView(container, item);
-  }, [selectedIndex]);
+    useLayoutEffect(() => {
+      const container = commandListContainer?.current;
 
-  return items.length > 0 ? (
-    <div
-      id="slash-command"
-      ref={commandListContainer}
-      className="dark z-50 w-80 h-auto max-h-[330px] overflow-y-auto bg-black rounded-lg border border-white/10 p-1 text-white animate-in shadow-lg"
-    >
-      {items.map((item: CommandItemProps, index: number) => {
-        return (
-          <CommandListItem
-            key={item.id}
-            item={item}
-            index={index}
-            selectedIndex={selectedIndex}
-            isLoading={isLoading}
-            onSelect={selectItem}
-          />
-        );
-      })}
-    </div>
-  ) : null;
-};
+      const item = container?.children[selectedIndex] as HTMLElement;
+
+      if (item && container) updateScrollView(container, item);
+    }, [selectedIndex]);
+
+    return items.length > 0 ? (
+      <SuggestionList ref={commandListContainer}>
+        {items.map((item: SuggestionItem, index: number) => {
+          if (isSeparator(item)) {
+            return <SuggestionListSeperator key={item.id} />;
+          }
+          return (
+            <CommandListItem
+              key={item.id}
+              item={item as CommandItemProps}
+              index={index}
+              selectedIndex={selectedIndex}
+              isLoading={false}
+              onSelect={selectItem}
+            />
+          );
+        })}
+      </SuggestionList>
+    ) : null;
+  },
+);
+
+CommandList.displayName = "CommandList";

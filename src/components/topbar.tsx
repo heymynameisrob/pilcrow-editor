@@ -1,15 +1,33 @@
-"use client";
+import { Button } from "@/components/ui/button";
+import { Tooltip } from "@/components/ui/tooltip";
+import { Doc } from "@/utils/types";
+import { MagnifyingGlassIcon, PlusIcon } from "@heroicons/react/16/solid";
 
-import { Dashboard } from "@/components/dashboard";
-import { Title } from "@/components/title";
-import { TopMenu } from "@/components/top-menu";
-
-export const TopBar = () => (
-  <div className="fixed w-full bg-gradient-to-b from-white to-transparent z-40 top-0 left-0 flex gap-2 flex-row items-center justify-between px-2 py-2 h-14 backdrop-blur-sm dark:from-neutral-950 md:backdrop-blur-none md:absolute md:px-4">
-    <div className="flex items-center gap-2">
-      <Dashboard />
-      <Title />
-    </div>
-    <TopMenu />
-  </div>
-);
+export function TopBar({
+  document,
+  userId,
+}: {
+  document: Doc;
+  userId: string;
+}) {
+  return (
+    <nav
+      role="navigation"
+      className="flex items-center justify-between px-4 h-12 md:px-2"
+    >
+      <span className="text-sm text-gray-10 font-medium">{document.title}</span>
+      <div className="flex items-center justify-end gap-1">
+        <Tooltip content="Jump to • ⌘J">
+          <Button size="icon" variant="ghost">
+            <MagnifyingGlassIcon className="size-4 opacity-70" />
+          </Button>
+        </Tooltip>
+        <Tooltip content="New • ⇧N">
+          <Button size="icon" variant="ghost">
+            <PlusIcon className="size-4 opacity-70" />
+          </Button>
+        </Tooltip>
+      </div>
+    </nav>
+  );
+}

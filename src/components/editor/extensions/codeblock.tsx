@@ -3,7 +3,7 @@
 import { toast } from "sonner";
 import { type Editor, NodeViewContent, NodeViewWrapper } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
-import { CopyIcon } from "@/components/icons";
+import { DocumentDuplicateIcon as CopyIcon } from "@heroicons/react/16/solid";
 import { useHotkeys } from "react-hotkeys-hook";
 
 export const CodeBlockComponent = ({
@@ -61,7 +61,7 @@ export const CodeBlockComponent = ({
       >
         <CopyIcon />
       </Button>
-      <pre className="rounded-lg bg-neutral-800 border border-white/10 font-mono text-sm text-neutral-100">
+      <pre className="rounded-lg bg-gray-9 border border-white/10 font-mono text-sm text-gray-2">
         <NodeViewContent as="code" />
       </pre>
     </NodeViewWrapper>

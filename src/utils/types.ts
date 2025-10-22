@@ -1,13 +1,13 @@
 import { JSONContent } from "@tiptap/core";
 
 export type Note = {
-  id: string;
+  id: number;
   content: string;
   created_at?: string;
 };
 
 export type Doc = {
-  id: string;
+  id: number;
   title: string;
   content: JSONContent;
   created_at: string | Date;
