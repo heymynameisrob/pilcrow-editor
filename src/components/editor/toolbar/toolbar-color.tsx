@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Toggle } from "@/components/ui/toggle";
-import { ChevronDownIcon } from "@/components/icons";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { cn } from "@/utils";
 import { EDITOR_COLOR_CLASSES } from "@/utils/constants";
 
@@ -43,10 +43,10 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
   }, [editor]);
 
   return (
-    <DropdownMenu>
+    <>
       <DropdownMenuTrigger asChild>
         <Toggle
-          size="sm"
+          size="icon"
           title="Color"
           aria-label="Color"
           data-microtip-position="top"
@@ -110,6 +110,6 @@ export const ToolbarColor = ({ editor }: { editor: Editor }) => {
           </>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
-    </DropdownMenu>
+    </>
   );
 };

@@ -44,7 +44,7 @@ const DrawerContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-x-2 bottom-2 z-50 mt-24 flex h-auto flex-col gap-4 rounded-[20px] overflow-hidden bg-white dark:border-white/10 dark:bg-neutral-900",
+        "fixed inset-x-2 bottom-2 z-50 mt-24 flex h-auto flex-col gap-4 rounded-[20px] overflow-hidden bg-white",
         isIOS() && "mb-4", // Clears home indicator
         className,
       )}
@@ -101,7 +101,7 @@ const DrawerDescription = React.forwardRef<
   <DrawerPrimitive.Description
     ref={ref}
     className={cn(
-      "!text-base text-neutral-500 dark:text-neutral-400",
+      "!text-base text-gray-6",
       className,
     )}
     {...props}
@@ -130,7 +130,7 @@ const DrawerMenuItem = (props: any) => (
   <button
     {...props}
     className={cn(
-      "group flex h-[44px] w-full items-center gap-3 rounded-xl bg-neutral-50 px-4 text-base text-neutral-900 dark:text-white dark:bg-white/5 transition-transform active:scale-95",
+      "group flex h-[44px] w-full items-center gap-3 rounded-xl bg-gray-1 px-4 text-base text-gray-10 transition-transform active:scale-95",
       props.className,
     )}
   >

@@ -1,0 +1,19 @@
+[build]
+  command = "npm run build"
+  publish = ".output/public"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/server"
+  status = 200
+
+[functions]
+  directory = ".output/server"
+
+# Environment variables that should be set in Netlify UI:
+# NODE_ENV - Set to "production" to enable Turso database
+# BETTER_AUTH_SECRET - Secret key for BetterAuth (generate with: openssl rand -base64 32)
+# BETTER_AUTH_URL - Production URL (e.g., https://your-app.netlify.app)
+# TIPTAP_PRO_TOKEN - TipTap Pro authentication token
+# TURSO_DATABASE_URL - Turso database URL (e.g., libsql://your-database.turso.io)
+# TURSO_AUTH_TOKEN - Turso authentication token

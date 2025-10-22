@@ -9,16 +9,24 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# tanstack start
+.output
+.vinxi
+dist
+.netlify
 
 # production
 /build
 
+# database
+sqlite.db
+sqlite.db-journal
+drizzle/
+
 # misc
 .DS_Store
 *.pem
+.npmrc
 
 # debug
 npm-debug.log*
@@ -27,10 +35,11 @@ yarn-error.log*
 
 # env files
 .env
-
-# vercel
-.vercel
+.env.local
+.env.production
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+
+# TanStack Router
+app/routeTree.gen.ts
